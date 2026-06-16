@@ -291,6 +291,33 @@ def detect_subgroups(text: str):
     return found
 
 
+def family_of_subgroup(subgroup: str):
+    subgroup_family_map = {
+        '四邑话': '粤', '台山话': '粤', '恩平话': '粤', '阳春白话': '粤', '吴川话': '粤', '广宁话': '粤', '清远白话': '粤', '化州白话': '粤',
+        '化州话': '粤', '德庆话': '粤', '开建话': '粤', '封川话': '粤', '高州话': '粤', '沙田话': '粤', '阳江话': '粤', '高要话': '粤',
+        '鼎湖话': '粤', '怀集下坊话': '粤', '怀集上坊话': '粤', '怀集宁洞话': '粤', '怀集话': '粤', '怀集诗洞标话': '粤', '怀集永固标话': '粤',
+        '怀集梁村标话': '粤', '东莞清溪话': '粤', '东莞樟木头话': '粤', '东莞凤岗话': '粤', '四会话': '粤', '四会地豆话': '粤', '四会迳口话': '粤',
+        '石岐话': '粤', '龙门话': '粤', '连州话': '粤', '星子话': '粤', '袂花话': '粤', '能古话': '粤', '罗广话': '粤', '思平话': '粤',
+        '高要方莲塘话': '粤',
+        '涯话': '客家', '上莞话': '客家', '清化话': '客家', '黄村话': '客家', '叶潭话': '客家', '蓝口话': '客家', '仁化董塘话': '客家',
+        '仁化长江话': '客家', '始兴话': '客家', '偃话': '客家',
+        '潮汕话': '闽', '学佬话': '闽', '雷州话': '闽', '海丰话': '闽', '隆都话': '闽', '连滩话': '闽', '电白黎话': '闽', '电白海话': '闽',
+        '蓝田话': '少数民族', '瑶语': '少数民族', '瑶族方言': '少数民族', '畲话': '少数民族', '连山壮话': '少数民族',
+        '虱婆声': '土话', '潭岭话': '土话', '黄圃话': '土话', '尖米话': '土话', '惠州地方话': '土话', '仁化塞麻话': '土话', '船话': '土话',
+        '船婆声': '土话', '连州阿B声': '土话', '蛇声': '土话',
+        '军话': '官话', '普通话': '官话', '旧时正话': '官话', '四川话': '官话', '重庆话': '官话', '官话': '官话',
+        '湘语': '湘语',
+    }
+    return subgroup_family_map.get(subgroup)
+
+
+def detect_explicit_family(text: str):
+    for family_name, family_pattern in EXPLICIT_FAMILY_PREFIX_RULES:
+        if family_pattern.search(text):
+            return family_name
+    return None
+
+
 def detect_accents(text: str):
     found = []
     for pattern in ACCENT_PATTERNS:
@@ -334,11 +361,7 @@ def classify_row(text: str):
     usage_notes = detect_usage_notes(raw)
     paren_notes = [m for m in PAREN_RE.findall(raw) if m]
 
-    explicit_family = None
-    for family_name, family_pattern in EXPLICIT_FAMILY_PREFIX_RULES:
-        if family_pattern.search(raw):
-            explicit_family = family_name
-            break
+    explicit_family = detect_explicit_family(raw)
 
     if raw in DIRECT_RAW_VALUE_MAP:
         forced_family, forced_subgroup = DIRECT_RAW_VALUE_MAP[raw]
@@ -349,14 +372,38 @@ def classify_row(text: str):
         mixed_family_text = ''
         mixed_subgroup_text = ''
     else:
-        families = detect_families(raw)
-        subgroup_tags = detect_subgroups(raw)
+        families = []
+        subgroup_tags = []
+        for segment in segments or [raw]:
+            seg_explicit_family = detect_explicit_family(segment)
+            seg_families = detect_families(segment)
+            unique_seg_families = []
+            for family in seg_families:
+                if family not in unique_seg_families:
+                    unique_seg_families.append(family)
+            if seg_explicit_family:
+                unique_seg_families = [seg_explicit_family]
+
+            seg_subgroups = detect_subgroups(segment)
+            if len(unique_seg_families) == 1:
+                seg_subgroups = [
+                    subgroup for subgroup in seg_subgroups
+                    if family_of_subgroup(subgroup) in (None, unique_seg_families[0])
+                ]
+
+            for family in unique_seg_families:
+                if family not in families:
+                    families.append(family)
+            for subgroup in seg_subgroups:
+                if subgroup not in subgroup_tags:
+                    subgroup_tags.append(subgroup)
+
         unique_families = []
         for family in families:
             if family not in unique_families:
                 unique_families.append(family)
 
-        if explicit_family:
+        if explicit_family and len(segments) <= 1:
             unique_families = [explicit_family]
 
         if len(unique_families) == 0:
@@ -366,7 +413,18 @@ def classify_row(text: str):
         else:
             primary_family = '混合'
 
-        primary_subgroup = subgroup_tags[0] if subgroup_tags else None
+        primary_subgroup = None
+        if subgroup_tags:
+            if len(unique_families) == 1:
+                for subgroup in subgroup_tags:
+                    subgroup_family = family_of_subgroup(subgroup)
+                    if subgroup_family in (None, unique_families[0]):
+                        primary_subgroup = subgroup
+                        break
+                if primary_subgroup is None:
+                    primary_subgroup = subgroup_tags[0]
+            else:
+                primary_subgroup = subgroup_tags[0]
         mixed_family_text = '、'.join(unique_families) if len(unique_families) > 1 else ''
         mixed_subgroup_text = '、'.join(subgroup_tags) if len(subgroup_tags) > 1 else ''
 

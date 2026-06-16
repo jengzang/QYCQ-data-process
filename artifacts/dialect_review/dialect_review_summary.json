@@ -13,49 +13,49 @@
       "少数民族"
     ]
   },
-  "complex_rowid_count": 115,
-  "complex_distinct_value_count": 49,
+  "complex_rowid_count": 118,
+  "complex_distinct_value_count": 48,
   "top_complex_values": [
     {
       "final_write_value_by_rowid": "粤、客家",
-      "rowid_count": 17,
+      "rowid_count": 21,
       "example_rowids": [
         273278,
         281131,
+        280817,
         281845,
         246103,
-        171547,
-        169508,
-        183300,
-        184980
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤、粤、客家",
-      "rowid_count": 12,
-      "example_rowids": [
-        273461,
-        273476,
-        265743,
-        237979,
-        243868,
-        171014,
-        223498,
-        111751
+        175082,
+        175084,
+        171547
       ]
     },
     {
       "final_write_value_by_rowid": "客家、粤、客家",
-      "rowid_count": 8,
+      "rowid_count": 10,
       "example_rowids": [
-        280817,
+        271277,
+        273844,
         245640,
         245654,
+        178080,
         171731,
         184996,
-        60187,
-        63733,
-        210958
+        60187
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤、粤、客家",
+      "rowid_count": 9,
+      "example_rowids": [
+        273461,
+        273476,
+        265743,
+        243868,
+        171014,
+        223498,
+        111751,
+        13691
       ]
     },
     {
@@ -70,6 +70,17 @@
         259589,
         260186,
         262931
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤、客家、粤、客家",
+      "rowid_count": 5,
+      "example_rowids": [
+        265563,
+        188220,
+        13407,
+        14816,
+        19040
       ]
     },
     {
@@ -95,39 +106,30 @@
       ]
     },
     {
-      "final_write_value_by_rowid": "粤·广宁话、粤、客家",
+      "final_write_value_by_rowid": "粤·广宁话、客家",
       "rowid_count": 4,
       "example_rowids": [
         271276,
         271332,
-        272148,
-        271869
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤、客家、粤、客家",
-      "rowid_count": 3,
-      "example_rowids": [
-        188220,
-        178896,
-        14816
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "闽·潮汕话、客家、闽",
-      "rowid_count": 3,
-      "example_rowids": [
-        2171,
-        607,
-        191839
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤·广宁话、客家",
-      "rowid_count": 2,
-      "example_rowids": [
         274405,
         273791
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤、闽",
+      "rowid_count": 3,
+      "example_rowids": [
+        113584,
+        194373,
+        254701
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤·广宁话、粤、客家",
+      "rowid_count": 2,
+      "example_rowids": [
+        272148,
+        271869
       ]
     },
     {
@@ -139,11 +141,11 @@
       ]
     },
     {
-      "final_write_value_by_rowid": "粤·清远白话、粤、客家",
+      "final_write_value_by_rowid": "粤·高要话、粤、客家",
       "rowid_count": 2,
       "example_rowids": [
-        176852,
-        178005
+        271091,
+        270116
       ]
     },
     {
@@ -155,14 +157,6 @@
       ]
     },
     {
-      "final_write_value_by_rowid": "粤·蛇声、客家",
-      "rowid_count": 2,
-      "example_rowids": [
-        175082,
-        175084
-      ]
-    },
-    {
       "final_write_value_by_rowid": "客家、闽、客家、闽",
       "rowid_count": 2,
       "example_rowids": [
@@ -171,19 +165,19 @@
       ]
     },
     {
-      "final_write_value_by_rowid": "粤、闽",
+      "final_write_value_by_rowid": "闽、客家、闽",
       "rowid_count": 2,
       "example_rowids": [
-        113584,
-        254701
+        51573,
+        195343
       ]
     },
     {
-      "final_write_value_by_rowid": "闽、粤、闽",
+      "final_write_value_by_rowid": "粤、闽·电白黎话",
       "rowid_count": 2,
       "example_rowids": [
-        194373,
-        250495
+        94672,
+        95181
       ]
     },
     {
@@ -210,17 +204,17 @@
       ]
     },
     {
-      "final_write_value_by_rowid": "粤·高要话、粤、客家",
+      "final_write_value_by_rowid": "粤·清远白话、客家、粤、客家",
       "rowid_count": 1,
       "example_rowids": [
-        271091
+        176852
       ]
     },
     {
-      "final_write_value_by_rowid": "粤、客家、粤、客家、粤、少数民族",
+      "final_write_value_by_rowid": "粤·清远白话、粤、客家",
       "rowid_count": 1,
       "example_rowids": [
-        265563
+        178005
       ]
     },
     {
@@ -277,6 +271,13 @@
       "rowid_count": 1,
       "example_rowids": [
         227255
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤·东莞清溪话、客家",
+      "rowid_count": 1,
+      "example_rowids": [
+        6749
       ]
     }
   ],
