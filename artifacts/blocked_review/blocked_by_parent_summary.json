@@ -1,0 +1,1498 @@
+{
+  "blocked_total": 8425,
+  "reason_summary": [
+    {
+      "blocked_reason_guess": "admin_unmatched_or_ambiguous",
+      "blocked_count": 8249
+    },
+    {
+      "blocked_reason_guess": "town_unmatched",
+      "blocked_count": 176
+    }
+  ],
+  "top_cities": [
+    {
+      "xlsx_city": "茂名",
+      "blocked_count": 1463
+    },
+    {
+      "xlsx_city": "湛江",
+      "blocked_count": 1319
+    },
+    {
+      "xlsx_city": "韶关",
+      "blocked_count": 952
+    },
+    {
+      "xlsx_city": "肇庆",
+      "blocked_count": 806
+    },
+    {
+      "xlsx_city": "清远",
+      "blocked_count": 737
+    },
+    {
+      "xlsx_city": "阳江",
+      "blocked_count": 571
+    },
+    {
+      "xlsx_city": "河源",
+      "blocked_count": 561
+    },
+    {
+      "xlsx_city": "云浮",
+      "blocked_count": 435
+    },
+    {
+      "xlsx_city": "梅州",
+      "blocked_count": 351
+    },
+    {
+      "xlsx_city": "惠州",
+      "blocked_count": 287
+    },
+    {
+      "xlsx_city": "江门",
+      "blocked_count": 269
+    },
+    {
+      "xlsx_city": "汕尾",
+      "blocked_count": 227
+    },
+    {
+      "xlsx_city": "潮州",
+      "blocked_count": 167
+    },
+    {
+      "xlsx_city": "广州",
+      "blocked_count": 121
+    },
+    {
+      "xlsx_city": "汕头",
+      "blocked_count": 76
+    },
+    {
+      "xlsx_city": "中山",
+      "blocked_count": 53
+    },
+    {
+      "xlsx_city": "东莞",
+      "blocked_count": 24
+    },
+    {
+      "xlsx_city": "珠海",
+      "blocked_count": 6
+    }
+  ],
+  "top_towns": [
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "春城街道",
+      "blocked_count": 184
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "丹霞街道",
+      "blocked_count": 183
+    },
+    {
+      "xlsx_city": "河源",
+      "xlsx_town": "紫城镇",
+      "blocked_count": 178
+    },
+    {
+      "xlsx_city": "河源",
+      "xlsx_town": "全曾田镇",
+      "blocked_count": 152
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "长江镇",
+      "blocked_count": 144
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "全长山镇",
+      "blocked_count": 131
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "河镇",
+      "blocked_count": 117
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "全覃巴镇",
+      "blocked_count": 107
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "雪西牛镇",
+      "blocked_count": 106
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "大湾镇",
+      "blocked_count": 106
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "周田镇",
+      "blocked_count": 104
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "超全南山镇",
+      "blocked_count": 103
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝光街道",
+      "blocked_count": 103
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "唐家镇",
+      "blocked_count": 89
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "西街",
+      "blocked_count": 88
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "黄坡镇",
+      "blocked_count": 88
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "大崑镇",
+      "blocked_count": 82
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "小三江镇",
+      "blocked_count": 82
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "全粤沙琅镇",
+      "blocked_count": 80
+    },
+    {
+      "xlsx_city": "梅州",
+      "xlsx_town": "宝水寨镇",
+      "blocked_count": 77
+    },
+    {
+      "xlsx_city": "惠州",
+      "xlsx_town": "黄埠镇",
+      "blocked_count": 75
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "东简街道",
+      "blocked_count": 71
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "前山镇",
+      "blocked_count": 70
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "黄岗街道",
+      "blocked_count": 70
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "罗城街道",
+      "blocked_count": 69
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "江谷镇",
+      "blocked_count": 69
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "雪红山镇",
+      "blocked_count": 63
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "扶溪镇",
+      "blocked_count": 61
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "圭岗镇",
+      "blocked_count": 59
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "羊角镇",
+      "blocked_count": 57
+    },
+    {
+      "xlsx_city": "河源",
+      "xlsx_town": "凤安镇",
+      "blocked_count": 56
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "金马贵镇",
+      "blocked_count": 56
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "望埠镇",
+      "blocked_count": 53
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "超全塘瑷镇",
+      "blocked_count": 53
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "平定镇",
+      "blocked_count": 52
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "秀水镇",
+      "blocked_count": 51
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "桂城街道",
+      "blocked_count": 48
+    },
+    {
+      "xlsx_city": "河源",
+      "xlsx_town": "新回龙镇",
+      "blocked_count": 46
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "储粤大站镇",
+      "blocked_count": 45
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "新坡镇",
+      "blocked_count": 44
+    },
+    {
+      "xlsx_city": "潮州",
+      "xlsx_town": "归湖镇",
+      "blocked_count": 43
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "新桐镇",
+      "blocked_count": 43
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "宝粤茜塘镇",
+      "blocked_count": 42
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "官渡镇",
+      "blocked_count": 41
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "洋糖社区",
+      "blocked_count": 40
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "潘州街道",
+      "blocked_count": 40
+    },
+    {
+      "xlsx_city": "梅州",
+      "xlsx_town": "叶塘社区",
+      "blocked_count": 39
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "下钛镇",
+      "blocked_count": 39
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝圩镇",
+      "blocked_count": 38
+    },
+    {
+      "xlsx_city": "江门",
+      "xlsx_town": "四九镇",
+      "blocked_count": 37
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "诗洞镇",
+      "blocked_count": 37
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "塘蓬镇",
+      "blocked_count": 36
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "山塘镇",
+      "blocked_count": 35
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "全大成镇",
+      "blocked_count": 35
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝大井镇",
+      "blocked_count": 35
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "英红镇",
+      "blocked_count": 34
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "石角镇",
+      "blocked_count": 34
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "云潭镇",
+      "blocked_count": 34
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "嘴質桥镇",
+      "blocked_count": 34
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝南塘镇",
+      "blocked_count": 34
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "金粤合江镇",
+      "blocked_count": 33
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "鳌头镇",
+      "blocked_count": 33
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "云城街道",
+      "blocked_count": 32
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "西连镇",
+      "blocked_count": 32
+    },
+    {
+      "xlsx_city": "中山",
+      "xlsx_town": "大涌镇",
+      "blocked_count": 31
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "洋青镇",
+      "blocked_count": 31
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "精粤曹江镇",
+      "blocked_count": 31
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "全河唇镇",
+      "blocked_count": 30
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "大坡镇",
+      "blocked_count": 30
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "岗列街道",
+      "blocked_count": 30
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "罗平镇",
+      "blocked_count": 29
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "朱砂镇",
+      "blocked_count": 29
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "石鼓镇",
+      "blocked_count": 29
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "荷塘镇",
+      "blocked_count": 29
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "津前社区",
+      "blocked_count": 28
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "深镇镇",
+      "blocked_count": 28
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "粤石潭镇",
+      "blocked_count": 27
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "飞来峡镇",
+      "blocked_count": 27
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "珠玑镇",
+      "blocked_count": 27
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "粤石塘镇",
+      "blocked_count": 27
+    },
+    {
+      "xlsx_city": "惠州",
+      "xlsx_town": "陈江街道",
+      "blocked_count": 26
+    },
+    {
+      "xlsx_city": "梅州",
+      "xlsx_town": "全光德镇",
+      "blocked_count": 26
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "三坑镇",
+      "blocked_count": 26
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "长坡镇",
+      "blocked_count": 26
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "千官镇",
+      "blocked_count": 25
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "大湾镇",
+      "blocked_count": 25
+    },
+    {
+      "xlsx_city": "广州",
+      "xlsx_town": "温泉镇",
+      "blocked_count": 25
+    },
+    {
+      "xlsx_city": "江门",
+      "xlsx_town": "百合镇",
+      "blocked_count": 25
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "下桥镇",
+      "blocked_count": 25
+    },
+    {
+      "xlsx_city": "潮州",
+      "xlsx_town": "新丰镇",
+      "blocked_count": 25
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "江湖镇",
+      "blocked_count": 25
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "粤观珠镇",
+      "blocked_count": 25
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "岗美镇",
+      "blocked_count": 25
+    },
+    {
+      "xlsx_city": "汕尾",
+      "xlsx_town": "联安镇",
+      "blocked_count": 24
+    },
+    {
+      "xlsx_city": "江门",
+      "xlsx_town": "君堂镇",
+      "blocked_count": 24
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "南街镇",
+      "blocked_count": 24
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "粤黄岭镇",
+      "blocked_count": 24
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "实票区",
+      "blocked_count": 24
+    },
+    {
+      "xlsx_city": "梅州",
+      "xlsx_town": "径南社区",
+      "blocked_count": 23
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝长岐镇",
+      "blocked_count": 23
+    }
+  ],
+  "top_admins": [
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "全粤沙琅镇",
+      "xlsx_admin_village": "堂砥行政村",
+      "blocked_count": 34
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "春城街道",
+      "xlsx_admin_village": "崆峒行政村",
+      "blocked_count": 33
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "江谷镇",
+      "xlsx_admin_village": "培崑行政村",
+      "blocked_count": 31
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "全覃巴镇",
+      "xlsx_admin_village": "高栈行政村",
+      "blocked_count": 29
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "深镇镇",
+      "xlsx_admin_village": "良坪行政村",
+      "blocked_count": 28
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "江谷镇",
+      "xlsx_admin_village": "大桐行政村",
+      "blocked_count": 27
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "平定镇",
+      "xlsx_admin_village": "蓬利行政村",
+      "blocked_count": 26
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "千官镇",
+      "xlsx_admin_village": "塱济行政村",
+      "blocked_count": 25
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "羊角镇",
+      "xlsx_admin_village": "禄段行政村",
+      "blocked_count": 25
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "储粤大站镇",
+      "xlsx_admin_village": "景头行政村",
+      "blocked_count": 23
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "全河唇镇",
+      "xlsx_admin_village": "苏州桐行政村",
+      "blocked_count": 23
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "春城街道",
+      "xlsx_admin_village": "升平行政村",
+      "blocked_count": 23
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "春城街道",
+      "xlsx_admin_village": "合岗行政村",
+      "blocked_count": 23
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "储粤大站镇",
+      "xlsx_admin_village": "莱洲行政村",
+      "blocked_count": 22
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "小三江镇",
+      "xlsx_admin_village": "永丰行政村",
+      "blocked_count": 22
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "诗洞镇",
+      "xlsx_admin_village": "龙凤行政村",
+      "blocked_count": 22
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "云潭镇",
+      "xlsx_admin_village": "平桐行政村",
+      "blocked_count": 22
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "朱砂镇",
+      "xlsx_admin_village": "朱砂行政村",
+      "blocked_count": 22
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "金马贵镇",
+      "xlsx_admin_village": "甘埔行政村",
+      "blocked_count": 22
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "圭岗镇",
+      "xlsx_admin_village": "南埽行政村",
+      "blocked_count": 22
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "春城街道",
+      "xlsx_admin_village": "三湖行政村",
+      "blocked_count": 22
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "春城街道",
+      "xlsx_admin_village": "河西街道更古坑行政村",
+      "blocked_count": 22
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝南塘镇",
+      "xlsx_admin_village": "大石桐行政村",
+      "blocked_count": 21
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "圭岗镇",
+      "xlsx_admin_village": "那桐行政村",
+      "blocked_count": 21
+    },
+    {
+      "xlsx_city": "广州",
+      "xlsx_town": "温泉镇",
+      "xlsx_admin_village": "龙新行政村",
+      "blocked_count": 20
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "雪西牛镇",
+      "xlsx_admin_village": "板甫行政村",
+      "blocked_count": 20
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "黄花镇",
+      "xlsx_admin_village": "孔迳行政村",
+      "blocked_count": 20
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝光街道",
+      "xlsx_admin_village": "红粉行政村",
+      "blocked_count": 20
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "粤陂面镇",
+      "xlsx_admin_village": "惠周行政村",
+      "blocked_count": 20
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "庆云镇",
+      "xlsx_admin_village": "祅田行政村",
+      "blocked_count": 20
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "罗城街道",
+      "xlsx_admin_village": "柑园社区",
+      "blocked_count": 19
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "望埠镇",
+      "xlsx_admin_village": "萌新行政村",
+      "blocked_count": 19
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "雪西牛镇",
+      "xlsx_admin_village": "新益行政村",
+      "blocked_count": 19
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "飞来峡镇",
+      "xlsx_admin_village": "龙埗社区",
+      "blocked_count": 19
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "地豆镇",
+      "xlsx_admin_village": "塔崑行政村",
+      "blocked_count": 19
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "梁村镇",
+      "xlsx_admin_village": "游水行政村",
+      "blocked_count": 19
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "全粤沙琅镇",
+      "xlsx_admin_village": "琅西行政村",
+      "blocked_count": 19
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝大井镇",
+      "xlsx_admin_village": "木广桐行政村",
+      "blocked_count": 19
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "粤观珠镇",
+      "xlsx_admin_village": "河桐行政村",
+      "blocked_count": 19
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "精粤曹江镇",
+      "xlsx_admin_village": "潭村行政村",
+      "blocked_count": 19
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "羊角镇",
+      "xlsx_admin_village": "新城行政村",
+      "blocked_count": 19
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "春城街道",
+      "xlsx_admin_village": "三丰行政村",
+      "blocked_count": 19
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "大湾镇",
+      "xlsx_admin_village": "梦蓬行政村",
+      "blocked_count": 18
+    },
+    {
+      "xlsx_city": "江门",
+      "xlsx_town": "百合镇",
+      "xlsx_admin_village": "茅网行政村",
+      "blocked_count": 18
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "塘蓬镇",
+      "xlsx_admin_village": "堤浪行政村",
+      "blocked_count": 18
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "下钛镇",
+      "xlsx_admin_village": "沙岗行政村",
+      "blocked_count": 17
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "望埠镇",
+      "xlsx_admin_village": "崦山行政村",
+      "blocked_count": 17
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "全覃巴镇",
+      "xlsx_admin_village": "龙首行政村",
+      "blocked_count": 17
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "超全南山镇",
+      "xlsx_admin_village": "乙神行政村",
+      "blocked_count": 17
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "高桥镇",
+      "xlsx_admin_village": "大冲行政村",
+      "blocked_count": 17
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "嘴粤霞洞镇",
+      "xlsx_admin_village": "甘村行政村",
+      "blocked_count": 17
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝光街道",
+      "xlsx_admin_village": "曹桐行政村",
+      "blocked_count": 17
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝光街道",
+      "xlsx_admin_village": "陈垌行政村",
+      "blocked_count": 17
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "文楼镇",
+      "xlsx_admin_village": "桐生行政村",
+      "blocked_count": 17
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "新宝镇",
+      "xlsx_admin_village": "新宝行政村",
+      "blocked_count": 17
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "新桐镇",
+      "xlsx_admin_village": "流桐行政村",
+      "blocked_count": 17
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "周田镇",
+      "xlsx_admin_village": "平甫行政村",
+      "blocked_count": 17
+    },
+    {
+      "xlsx_city": "江门",
+      "xlsx_town": "汶村镇",
+      "xlsx_admin_village": "菱一行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "大崑镇",
+      "xlsx_admin_village": "漏水坪行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "官渡镇",
+      "xlsx_admin_village": "埤头行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "洋青镇",
+      "xlsx_admin_village": "西埽行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "西街",
+      "xlsx_admin_village": "闸口行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "黄坡镇",
+      "xlsx_admin_village": "磐石行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "大湾镇",
+      "xlsx_admin_village": "大白行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "排沙镇",
+      "xlsx_admin_village": "木垮行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝圩镇",
+      "xlsx_admin_village": "陈桐行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝大井镇",
+      "xlsx_admin_village": "清桐行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝长岐镇",
+      "xlsx_admin_village": "塘北行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "江湖镇",
+      "xlsx_admin_village": "湖边行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "金马贵镇",
+      "xlsx_admin_village": "墟垌行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "圭岗镇",
+      "xlsx_admin_village": "吉桐行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "春城街道",
+      "xlsx_admin_village": "龙岩行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "河镇",
+      "xlsx_admin_village": "河行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "桂头镇",
+      "xlsx_admin_village": "阳陂行政村",
+      "blocked_count": 16
+    },
+    {
+      "xlsx_city": "惠州",
+      "xlsx_town": "吉隆镇",
+      "xlsx_admin_village": "轿岭行政村",
+      "blocked_count": 15
+    },
+    {
+      "xlsx_city": "河源",
+      "xlsx_town": "粤埔前镇",
+      "xlsx_admin_village": "泥金行政村",
+      "blocked_count": 15
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "望埠镇",
+      "xlsx_admin_village": "坪迳行政村",
+      "blocked_count": 15
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "超全南山镇",
+      "xlsx_admin_village": "大黄行政村",
+      "blocked_count": 15
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "大湾镇",
+      "xlsx_admin_village": "脉源行政村",
+      "blocked_count": 15
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "全粤沙琅镇",
+      "xlsx_admin_village": "谭儒行政村",
+      "blocked_count": 15
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝光街道",
+      "xlsx_admin_village": "文龙行政村",
+      "blocked_count": 15
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "新桐镇",
+      "xlsx_admin_village": "高联行政村",
+      "blocked_count": 15
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "长坡镇",
+      "xlsx_admin_village": "周桐行政村",
+      "blocked_count": 15
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "双捷镇",
+      "xlsx_admin_village": "境湾行政村",
+      "blocked_count": 15
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "长江镇",
+      "xlsx_admin_village": "塘洞行政村",
+      "blocked_count": 15
+    },
+    {
+      "xlsx_city": "惠州",
+      "xlsx_town": "黄埠镇",
+      "xlsx_admin_village": "巽寮行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "大崑镇",
+      "xlsx_admin_village": "大陂行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "小三江镇",
+      "xlsx_admin_village": "新溪行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "英红镇",
+      "xlsx_admin_village": "坑口咀社区",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "金沙口镇",
+      "xlsx_admin_village": "平峰行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "下桥镇",
+      "xlsx_admin_village": "迈蜗行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "全覃巴镇",
+      "xlsx_admin_village": "六螯行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "全长山镇",
+      "xlsx_admin_village": "凤飞行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "全长山镇",
+      "xlsx_admin_village": "朱通行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "全长山镇",
+      "xlsx_admin_village": "西诵行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "塘蓬镇",
+      "xlsx_admin_village": "上垭行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "超全塘瑷镇",
+      "xlsx_admin_village": "南通行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "超全塘瑷镇",
+      "xlsx_admin_village": "塘掇行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "大湾镇",
+      "xlsx_admin_village": "九源行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "怀城镇",
+      "xlsx_admin_village": "富扬行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "嘴質桥镇",
+      "xlsx_admin_village": "宣桥行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "粤黄岭镇",
+      "xlsx_admin_village": "白石行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "鳌头镇",
+      "xlsx_admin_village": "螯头行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "春城街道",
+      "xlsx_admin_village": "石上行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "河镇",
+      "xlsx_admin_village": "中联行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "河镇",
+      "xlsx_admin_village": "罗阳行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "长江镇",
+      "xlsx_admin_village": "陈欧行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "雪红山镇",
+      "xlsx_admin_village": "青迳行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "马市社区",
+      "xlsx_admin_village": "堂阁行政村",
+      "blocked_count": 14
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "加益镇",
+      "xlsx_admin_village": "排阜行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "南江口镇",
+      "xlsx_admin_village": "双冲行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "宝粤茜塘镇",
+      "xlsx_admin_village": "满东行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "皙滨镇",
+      "xlsx_admin_village": "泣田行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "惠州",
+      "xlsx_town": "安墩镇",
+      "xlsx_admin_village": "左华行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "江门",
+      "xlsx_town": "四九镇",
+      "xlsx_admin_village": "车荫行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "河源",
+      "xlsx_town": "凤安镇",
+      "xlsx_admin_village": "积良行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "三坑镇",
+      "xlsx_admin_village": "泣塘行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "三坑镇",
+      "xlsx_admin_village": "泣崑行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "东简街道",
+      "xlsx_admin_village": "调旧行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "前山镇",
+      "xlsx_admin_village": "墩尾行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "潮州",
+      "xlsx_town": "新丰镇",
+      "xlsx_admin_village": "深西行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "全粤潭布镇",
+      "xlsx_admin_village": "严桐行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "石狗镇",
+      "xlsx_admin_village": "都崑行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "闸岗镇",
+      "xlsx_admin_village": "共和行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "宝南塘镇",
+      "xlsx_admin_village": "谷質行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "平定镇",
+      "xlsx_admin_village": "旺桐行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "平定镇",
+      "xlsx_admin_village": "陆赠行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "石鼓镇",
+      "xlsx_admin_village": "深冲行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "羊角镇",
+      "xlsx_admin_village": "柏屋行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "茂名",
+      "xlsx_town": "荷塘镇",
+      "xlsx_admin_village": "东埔行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "阳江",
+      "xlsx_town": "石望镇",
+      "xlsx_admin_village": "中桐行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "丹霞街道",
+      "xlsx_admin_village": "胡坑行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "珠玑镇",
+      "xlsx_admin_village": "下玢行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "韶关",
+      "xlsx_town": "长江镇",
+      "xlsx_admin_village": "石印行政村",
+      "blocked_count": 13
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "罗城街道",
+      "xlsx_admin_village": "石围社区",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "云浮",
+      "xlsx_town": "罗平镇",
+      "xlsx_admin_village": "梦东行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "惠州",
+      "xlsx_town": "蓝田瑶族乡",
+      "xlsx_admin_village": "到流行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "江门",
+      "xlsx_town": "大江镇",
+      "xlsx_admin_village": "里坳行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "江门",
+      "xlsx_town": "横陂镇",
+      "xlsx_admin_village": "岐联行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "小三江镇",
+      "xlsx_admin_village": "荣丽行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "清远",
+      "xlsx_town": "雪西牛镇",
+      "xlsx_admin_village": "潭坑行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "官渡镇",
+      "xlsx_admin_village": "三角行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "洋糖社区",
+      "xlsx_admin_village": "姓谢行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "石角镇",
+      "xlsx_admin_village": "榕树行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "营仔镇",
+      "xlsx_admin_village": "桐口行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "超全南三镇",
+      "xlsx_admin_village": "南滘行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "湛江",
+      "xlsx_town": "黄坡镇",
+      "xlsx_admin_village": "金鸡行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "潮州",
+      "xlsx_town": "新丰镇",
+      "xlsx_admin_village": "深东行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "悦城镇",
+      "xlsx_admin_village": "云帮行政村",
+      "blocked_count": 12
+    },
+    {
+      "xlsx_city": "肇庆",
+      "xlsx_town": "桂城街道",
+      "xlsx_admin_village": "广利街道砚洲社区",
+      "blocked_count": 12
+    }
+  ],
+  "output_files": [
+    "artifacts/blocked_review/blocked_by_parent_rows.csv",
+    "artifacts/blocked_review/blocked_by_parent_city_summary.csv",
+    "artifacts/blocked_review/blocked_by_parent_town_summary.csv",
+    "artifacts/blocked_review/blocked_by_parent_admin_summary.csv",
+    "artifacts/blocked_review/blocked_by_parent_reason_summary.csv"
+  ]
+}

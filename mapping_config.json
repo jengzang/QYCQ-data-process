@@ -1,0 +1,43 @@
+{
+  "xlsx_path": "Village.xlsx",
+  "db_path": "villages.db",
+  "table": "广东省自然村",
+  "output_dir": "outputs",
+  "db_identity": "rowid",
+  "levels": [
+    {
+      "name": "city",
+      "label": "市级",
+      "xlsx_col": "归属市",
+      "db_col": "市级",
+      "suffixes": ["市", "地区", "自治州"]
+    },
+    {
+      "name": "town",
+      "label": "乡镇级",
+      "xlsx_col": "归属镇",
+      "db_col": "乡镇级",
+      "suffixes": ["街道办事处", "街道办", "民族乡", "办事处", "街道", "镇", "乡", "街"]
+    },
+    {
+      "name": "admin",
+      "label": "行政村级",
+      "xlsx_col": "归属行政村",
+      "db_col": "行政村",
+      "suffixes": ["村民委员会", "居民委员会", "村委会", "居委会", "行政村", "居民区", "管理区", "社区", "大队", "村"]
+    },
+    {
+      "name": "natural",
+      "label": "自然村级",
+      "xlsx_col": "村名",
+      "db_col": "自然村",
+      "suffixes": ["村民小组", "自然村", "小组", "新村", "老村", "社区", "村", "庄", "寨", "屯", "坊", "围", "屋", "里", "社", "巷", "洞", "坪", "岗"]
+    }
+  ],
+  "dialect_col": "村居民使用语言情况",
+  "suggestion": {
+    "min_score": 0.58,
+    "limit": 8,
+    "high_confidence_score": 0.9
+  }
+}
