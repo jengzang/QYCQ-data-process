@@ -1,0 +1,32 @@
+# macOS / editor noise
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# SQLite runtime files
+*.db-shm
+*.db-wal
+*.sqlite-shm
+*.sqlite-wal
+
+# Local Hermes scratch
+.hermes/
+
+# Generated review / matching outputs
+outputs/
+artifacts/
+
+# Local backups
+*.bak
+*.bak.*
+
+# Optional large local source copies
+# Keep the canonical workbook/db under explicit git control if desired.
+# Uncomment if you want them ignored by default.
+# Village.xlsx
+# villages.db
+# villages_fromJNU.db
