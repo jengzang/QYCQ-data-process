@@ -69,19 +69,27 @@ def load_manual_confirmations(path):
             source_value = normalize_text(row.get('source_value'))
             confirmed_value = normalize_text(row.get('confirmed_value'))
             action = normalize_text(row.get('action') or 'confirm')
+            source_suggestions = normalize_text(row.get('source_suggestions'))
+            row_scope_hint = ''
+            if 'user_confirm_row_scope:' in source_suggestions:
+                row_scope_hint = source_suggestions.split('user_confirm_row_scope:', 1)[1].split('|', 1)[0].strip()
             if level and source_value and confirmed_value and action != 'reject':
-                confirmations[(level, parent_scope, source_value)] = confirmed_value
+                confirmations[(level, parent_scope, source_value)] = {
+                    'confirmed_value': confirmed_value,
+                    'row_scope_hint': row_scope_hint,
+                }
     return confirmations
 
 
 def apply_manual_confirmation(level, parent_scope, source_value, candidates, confirmations):
-    confirmed = confirmations.get((level, normalize_text(parent_scope), normalize_text(source_value)))
-    if not confirmed:
+    confirmation = confirmations.get((level, normalize_text(parent_scope), normalize_text(source_value)))
+    if not confirmation:
         return None
+    confirmed = confirmation['confirmed_value']
     normalized_candidates = {normalize_text(candidate): candidate for candidate in candidates}
     if normalize_text(confirmed) in normalized_candidates:
-        return 'manual_confirmed', normalized_candidates[normalize_text(confirmed)], [normalized_candidates[normalize_text(confirmed)]]
-    return 'manual_confirmed_out_of_scope', None, [confirmed]
+        return 'manual_confirmed', normalized_candidates[normalize_text(confirmed)], [normalized_candidates[normalize_text(confirmed)]], confirmation
+    return 'manual_confirmed_out_of_scope', confirmed, [confirmed], confirmation
 
 
 def load_config(path):
@@ -179,7 +187,7 @@ def match_value(value, candidates, suffixes):
 
 
 def status_allows_child(status):
-    return status in ('exact', 'suffix_normalized', 'manual_confirmed', 'ambiguous_normalized_allowed')
+    return status in ('exact', 'suffix_normalized', 'manual_confirmed', 'manual_confirmed_out_of_scope', 'ambiguous_normalized_allowed')
 
 
 def main(config_path='mapping_config.json'):
@@ -216,6 +224,7 @@ def main(config_path='mapping_config.json'):
     rows_by_city = defaultdict(list)
     rows_by_city_town = defaultdict(list)
     rows_by_city_town_admin = defaultdict(list)
+    admin_to_scopes = defaultdict(list)
     for row in db_rows:
         city = normalize_text(row[level_specs['city']['db_col']])
         town = normalize_text(row[level_specs['town']['db_col']])
@@ -223,6 +232,7 @@ def main(config_path='mapping_config.json'):
         rows_by_city[city].append(row)
         rows_by_city_town[(city, town)].append(row)
         rows_by_city_town_admin[(city, town, admin)].append(row)
+        admin_to_scopes[(city, admin)].append((town, row))
 
     suggestion_cfg = config.get('suggestion', {})
     suggest_limit = suggestion_cfg.get('limit', 8)
@@ -263,7 +273,7 @@ def main(config_path='mapping_config.json'):
             else:
                 manual = apply_manual_confirmation('town', city, town, db_towns, manual_confirmations)
                 if manual:
-                    status, matched, candidates = manual
+                    status, matched, candidates, _ = manual
                 else:
                     status, matched, candidates = match_value(town, db_towns, town_spec['suffixes'])
             candidate_values = candidates if status == 'ambiguous_normalized' else ([matched] if matched else [])
@@ -297,12 +307,36 @@ def main(config_path='mapping_config.json'):
                 if not manual:
                     manual = apply_manual_confirmation('admin', f'{city} / {town}', admin, db_admins, manual_confirmations)
                 if manual:
-                    status, matched, candidates = manual
+                    status, matched, candidates, _ = manual
                 else:
                     status, matched, candidates = match_value(admin, db_admins, admin_spec['suffixes'])
             effective_status = 'ambiguous_normalized_allowed' if status == 'ambiguous_normalized' else status
-            candidate_values = candidates if status == 'ambiguous_normalized' else ([matched] if matched else [])
-            admin_state[(city, town, admin)] = {'status': effective_status, 'matched': matched, 'candidate_values': candidate_values, 'original_status': status}
+            if status == 'ambiguous_normalized':
+                candidate_values = candidates
+                resolved_scopes = [
+                    (normalize_text(city_info['matched']), normalize_text(town_info['matched']), normalize_text(candidate))
+                    for candidate in candidates
+                ]
+            elif status == 'manual_confirmed_out_of_scope':
+                candidate_values = candidates if candidates else ([matched] if matched else [])
+                resolved_scopes = []
+                target_city = normalize_text(city_info['matched'])
+                for candidate in candidate_values:
+                    for resolved_town, _ in admin_to_scopes.get((target_city, normalize_text(candidate)), []):
+                        resolved_scopes.append((target_city, resolved_town, normalize_text(candidate)))
+                resolved_scopes = sorted(dict.fromkeys(resolved_scopes))
+            else:
+                candidate_values = [matched] if matched else []
+                resolved_scopes = [
+                    (normalize_text(city_info['matched']), normalize_text(town_info['matched']), normalize_text(matched))
+                ] if matched else []
+            admin_state[(city, town, admin)] = {
+                'status': effective_status,
+                'matched': matched,
+                'candidate_values': candidate_values,
+                'original_status': status,
+                'resolved_scopes': resolved_scopes,
+            }
             admin_rows.append({
                 'xlsx_city': city,
                 'xlsx_town': town,
@@ -324,13 +358,17 @@ def main(config_path='mapping_config.json'):
         natural = normalize_text(row[natural_spec['xlsx_col']])
         city_info = city_state.get(city, {'status': 'unmatched', 'matched': None, 'candidate_values': []})
         town_info = town_state.get((city, town), {'status': 'unmatched', 'matched': None, 'candidate_values': []})
-        admin_info = admin_state.get((city, town, admin), {'status': 'unmatched', 'matched': None, 'candidate_values': [], 'original_status': 'unmatched'})
+        admin_info = admin_state.get((city, town, admin), {'status': 'unmatched', 'matched': None, 'candidate_values': [], 'original_status': 'unmatched', 'resolved_scopes': []})
         parent_ok = status_allows_child(city_info['status']) and status_allows_child(town_info['status']) and status_allows_child(admin_info['status'])
 
         scoped_rows = []
         if parent_ok:
-            for admin_candidate in admin_info['candidate_values']:
-                scoped_rows.extend(rows_by_city_town_admin.get((normalize_text(city_info['matched']), normalize_text(town_info['matched']), normalize_text(admin_candidate)), []))
+            if admin_info['resolved_scopes']:
+                for resolved_city, resolved_town, resolved_admin in admin_info['resolved_scopes']:
+                    scoped_rows.extend(rows_by_city_town_admin.get((resolved_city, resolved_town, resolved_admin), []))
+            else:
+                for admin_candidate in admin_info['candidate_values']:
+                    scoped_rows.extend(rows_by_city_town_admin.get((normalize_text(city_info['matched']), normalize_text(town_info['matched']), normalize_text(admin_candidate)), []))
         unique_scoped_rows = {r['rowid']: r for r in scoped_rows}
         scoped_rows = list(unique_scoped_rows.values())
         natural_values = unique_sorted(r[natural_spec['db_col']] for r in scoped_rows)
@@ -341,8 +379,9 @@ def main(config_path='mapping_config.json'):
             manual = apply_manual_confirmation('natural', f'{city}/{town}/{admin}', natural, natural_values, manual_confirmations)
             if not manual:
                 manual = apply_manual_confirmation('natural', f'{city} / {town} / {admin}', natural, natural_values, manual_confirmations)
+            manual_meta = None
             if manual:
-                status, matched, candidates = manual
+                status, matched, candidates, manual_meta = manual
             else:
                 status, matched, candidates = match_value(natural, natural_values, natural_spec['suffixes'])
             if status in ('exact', 'manual_confirmed'):
@@ -356,12 +395,29 @@ def main(config_path='mapping_config.json'):
                 if len(rowids) == 1:
                     matched_rowid = rowids[0]
                 elif len(rowids) > 1:
-                    signatures = {tuple(str(r.get(field) or '') for field in ['市级', '区县级', '乡镇级', '行政村', '自然村', '拼音', '方言分布', 'longitude', 'latitude', '备注', '暂时不用', '搜索用']) for r in matched_rows}
-                    if len(signatures) == 1:
-                        matched_rowid = rowids[0]
+                    row_scope_hint = normalize_text((manual_meta or {}).get('row_scope_hint', ''))
+                    if row_scope_hint:
+                        scoped_by_hint = [r for r in matched_rows if normalize_text(r.get('区县级')) == row_scope_hint]
+                        hinted_rowids = sorted({r['rowid'] for r in scoped_by_hint})
+                        if len(hinted_rowids) == 1:
+                            matched_rowid = hinted_rowids[0]
+                        elif len(hinted_rowids) > 1:
+                            signatures = {tuple(str(r.get(field) or '') for field in ['市级', '区县级', '乡镇级', '行政村', '自然村', '拼音', '方言分布', 'longitude', 'latitude', '备注', '暂时不用', '搜索用']) for r in scoped_by_hint}
+                            if len(signatures) == 1:
+                                matched_rowid = hinted_rowids[0]
+                            else:
+                                status, matched = 'ambiguous_row_scope', None
+                                matched_rowid = ''
+                        else:
+                            status, matched = 'ambiguous_row_scope', None
+                            matched_rowid = ''
                     else:
-                        status, matched = 'ambiguous_row_scope', None
-                        matched_rowid = ''
+                        signatures = {tuple(str(r.get(field) or '') for field in ['市级', '区县级', '乡镇级', '行政村', '自然村', '拼音', '方言分布', 'longitude', 'latitude', '备注', '暂时不用', '搜索用']) for r in matched_rows}
+                        if len(signatures) == 1:
+                            matched_rowid = rowids[0]
+                        else:
+                            status, matched = 'ambiguous_row_scope', None
+                            matched_rowid = ''
                 else:
                     status, matched = 'unmatched', None
                     matched_rowid = ''
