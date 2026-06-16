@@ -2,373 +2,289 @@
   "confirmed_rules": {
     "客家方言阳春倔话": "客家·阳春涯话",
     "客家方言阳春涯话": "客家·阳春涯话",
-    "coarse_fine_mixed_values": "keep_as_is"
+    "coarse_fine_mixed_values": "keep_as_is",
+    "component_order": [
+      "粤",
+      "客家",
+      "闽",
+      "土话",
+      "官话",
+      "湘语",
+      "少数民族"
+    ]
   },
-  "complex_rowid_count": 2220,
-  "complex_distinct_value_count": 94,
+  "complex_rowid_count": 115,
+  "complex_distinct_value_count": 49,
   "top_complex_values": [
     {
       "final_write_value_by_rowid": "粤、客家",
-      "rowid_count": 1395,
+      "rowid_count": 17,
       "example_rowids": [
-        5310,
-        5313,
-        5318,
-        5422,
-        5430,
-        5436,
-        5437,
-        5438
+        273278,
+        281131,
+        281845,
+        246103,
+        171547,
+        169508,
+        183300,
+        184980
       ]
     },
     {
-      "final_write_value_by_rowid": "客家、土话",
-      "rowid_count": 209,
-      "example_rowids": [
-        200504,
-        200511,
-        200512,
-        200513,
-        200515,
-        200516,
-        200517,
-        200518
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "客家、闽",
-      "rowid_count": 194,
-      "example_rowids": [
-        234,
-        278,
-        291,
-        301,
-        303,
-        305,
-        306,
-        319
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤、闽",
-      "rowid_count": 175,
-      "example_rowids": [
-        60717,
-        78035,
-        78042,
-        91747,
-        91748,
-        91750,
-        91760,
-        92860
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "客家、粤",
-      "rowid_count": 28,
-      "example_rowids": [
-        16031,
-        60187,
-        63733,
-        64192,
-        64250,
-        101244,
-        105728,
-        105799
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "客家、少数民族",
-      "rowid_count": 28,
-      "example_rowids": [
-        53516,
-        54678,
-        54685,
-        54686,
-        54687,
-        54698,
-        54699,
-        54706
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤·阳春白话、客家·涯话",
-      "rowid_count": 22,
-      "example_rowids": [
-        221995,
-        222015,
-        222016,
-        222017,
-        222023,
-        222028,
-        222029,
-        222034
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤、客家、闽",
+      "final_write_value_by_rowid": "粤、粤、客家",
       "rowid_count": 12,
       "example_rowids": [
-        7324,
-        171820,
-        189360,
-        207215,
-        211560,
-        211561,
-        211632,
-        244732
+        273461,
+        273476,
+        265743,
+        237979,
+        243868,
+        171014,
+        223498,
+        111751
       ]
     },
     {
-      "final_write_value_by_rowid": "闽、粤",
-      "rowid_count": 7,
+      "final_write_value_by_rowid": "客家、粤、客家",
+      "rowid_count": 8,
       "example_rowids": [
-        113584,
-        114292,
-        194373,
-        250378,
-        250495,
-        252073,
-        254701
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤、少数民族",
-      "rowid_count": 7,
-      "example_rowids": [
-        167815,
-        167819,
-        167831,
-        167885,
-        168053,
-        280073,
-        280081
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤·连山壮话、少数民族·怀集话",
-      "rowid_count": 7,
-      "example_rowids": [
-        168022,
-        168052,
-        168067,
-        168072,
-        168076,
-        168144,
-        168159
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤·广宁话、客家",
-      "rowid_count": 7,
-      "example_rowids": [
-        271276,
-        271332,
-        271869,
-        272148,
-        274081,
-        274499,
-        274917
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "客家、官话",
-      "rowid_count": 6,
-      "example_rowids": [
-        50413,
-        204037,
-        205339,
-        205635,
-        205641,
-        205642
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "闽、客家",
-      "rowid_count": 6,
-      "example_rowids": [
-        51573,
-        58679,
-        59545,
-        194454,
-        195324,
-        196055
+        280817,
+        245640,
+        245654,
+        171731,
+        184996,
+        60187,
+        63733,
+        210958
       ]
     },
     {
       "final_write_value_by_rowid": "粤、闽·雷州话",
-      "rowid_count": 6,
+      "rowid_count": 8,
       "example_rowids": [
-        257239,
+        259596,
         257282,
-        257359,
+        257239,
         257484,
-        259027,
-        259452
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "客家、闽·潮汕话",
-      "rowid_count": 4,
-      "example_rowids": [
-        607,
-        3981,
-        191839,
-        200454
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "客家·电白海话、闽·涯话",
-      "rowid_count": 4,
-      "example_rowids": [
-        93708,
-        94007,
-        94026,
-        95848
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤·阳春白话、客家",
-      "rowid_count": 4,
-      "example_rowids": [
-        222588,
-        223928,
-        224472,
-        228142
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤、客家、少数民族",
-      "rowid_count": 3,
-      "example_rowids": [
-        167889,
-        167896,
-        265563
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤·清远白话、客家",
-      "rowid_count": 3,
-      "example_rowids": [
-        176852,
-        178005,
-        178336
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤·吴川话、闽·雷州话",
-      "rowid_count": 3,
-      "example_rowids": [
-        256472,
-        256516,
-        260333
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "闽·雷州话、粤",
-      "rowid_count": 3,
-      "example_rowids": [
-        259435,
+        254675,
         259589,
+        260186,
         262931
       ]
     },
     {
-      "final_write_value_by_rowid": "粤·高要话、客家",
-      "rowid_count": 3,
+      "final_write_value_by_rowid": "客家、闽",
+      "rowid_count": 5,
       "example_rowids": [
-        269215,
-        269348,
-        270845
+        59644,
+        195324,
+        195332,
+        196055,
+        254419
       ]
     },
     {
-      "final_write_value_by_rowid": "客家、粤·广宁话",
+      "final_write_value_by_rowid": "客家、客家、闽",
+      "rowid_count": 5,
+      "example_rowids": [
+        59571,
+        51737,
+        53505,
+        195230,
+        208073
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤·广宁话、粤、客家",
+      "rowid_count": 4,
+      "example_rowids": [
+        271276,
+        271332,
+        272148,
+        271869
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤、客家、粤、客家",
       "rowid_count": 3,
       "example_rowids": [
-        273791,
+        188220,
+        178896,
+        14816
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "闽·潮汕话、客家、闽",
+      "rowid_count": 3,
+      "example_rowids": [
+        2171,
+        607,
+        191839
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤·广宁话、客家",
+      "rowid_count": 2,
+      "example_rowids": [
         274405,
-        274895
+        273791
       ]
     },
     {
-      "final_write_value_by_rowid": "闽·潮汕话、客家",
+      "final_write_value_by_rowid": "粤·高要话、客家",
       "rowid_count": 2,
       "example_rowids": [
-        1608,
-        2236
+        271073,
+        270292
       ]
     },
     {
-      "final_write_value_by_rowid": "客家、闽、粤",
+      "final_write_value_by_rowid": "粤·清远白话、粤、客家",
       "rowid_count": 2,
       "example_rowids": [
-        59546,
-        217080
+        176852,
+        178005
       ]
     },
     {
-      "final_write_value_by_rowid": "客家·电白黎话、闽·涯话",
+      "final_write_value_by_rowid": "粤·清远白话、客家",
       "rowid_count": 2,
       "example_rowids": [
-        93957,
-        93958
+        178336,
+        173422
       ]
     },
     {
-      "final_write_value_by_rowid": "闽·电白黎话、粤",
+      "final_write_value_by_rowid": "粤·蛇声、客家",
       "rowid_count": 2,
       "example_rowids": [
-        94672,
-        95181
+        175082,
+        175084
       ]
     },
     {
-      "final_write_value_by_rowid": "少数民族·连山壮话、粤、客家",
+      "final_write_value_by_rowid": "客家、闽、客家、闽",
       "rowid_count": 2,
       "example_rowids": [
-        167884,
-        168044
+        59545,
+        194454
       ]
     },
     {
-      "final_write_value_by_rowid": "粤、土话",
+      "final_write_value_by_rowid": "粤、闽",
       "rowid_count": 2,
       "example_rowids": [
-        168648,
-        217114
+        113584,
+        254701
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "闽、粤、闽",
+      "rowid_count": 2,
+      "example_rowids": [
+        194373,
+        250495
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "客家、少数民族·瑶语",
+      "rowid_count": 2,
+      "example_rowids": [
+        211518,
+        211516
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "客家、客家、少数民族",
+      "rowid_count": 2,
+      "example_rowids": [
+        212177,
+        212205
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤·台山话、粤、客家",
+      "rowid_count": 1,
+      "example_rowids": [
+        75831
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤·高要话、粤、客家",
+      "rowid_count": 1,
+      "example_rowids": [
+        271091
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤、客家、粤、客家、粤、少数民族",
+      "rowid_count": 1,
+      "example_rowids": [
+        265563
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤、客家、少数民族",
+      "rowid_count": 1,
+      "example_rowids": [
+        169609
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "少数民族·连山壮话、粤、客家、少数民族",
+      "rowid_count": 1,
+      "example_rowids": [
+        168130
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤·怀集话、少数民族·连山壮话",
+      "rowid_count": 1,
+      "example_rowids": [
+        168195
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "客家、少数民族·连山壮话、客家、少数民族、粤、少数民族",
+      "rowid_count": 1,
+      "example_rowids": [
+        167691
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "少数民族·连山壮话、客家、少数民族",
+      "rowid_count": 1,
+      "example_rowids": [
+        167520
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤·高州话、客家",
+      "rowid_count": 1,
+      "example_rowids": [
+        224828
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤·阳春白话、客家、粤、客家",
+      "rowid_count": 1,
+      "example_rowids": [
+        228097
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤·阳春白话、客家",
+      "rowid_count": 1,
+      "example_rowids": [
+        227255
       ]
     }
   ],
   "top_raw_grouping_suggestions": [
     {
-      "dialect_raw": "客家方言",
-      "raw_count": 21906,
-      "matched_rowid_count": 15424,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "客家",
-      "suggested_final_count": 21906,
-      "family_mix": "客家::21906",
-      "subgroup_mix": "",
-      "clean_confidence_mix": "high::21906",
-      "candidate_final_values": "客家::21906"
-    },
-    {
-      "dialect_raw": "粤方言",
-      "raw_count": 14751,
-      "matched_rowid_count": 10827,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤",
-      "suggested_final_count": 14751,
-      "family_mix": "粤::14751",
-      "subgroup_mix": "",
-      "clean_confidence_mix": "high::14751",
-      "candidate_final_values": "粤::14751"
-    },
-    {
       "dialect_raw": "粤方言四邑话",
       "raw_count": 2103,
-      "matched_rowid_count": 1810,
+      "matched_rowid_count": 1834,
       "suggestion_type": "stable_single_mapping",
       "suggested_final_write_value": "粤·四邑话",
       "suggested_final_count": 2103,
@@ -378,57 +294,489 @@
       "candidate_final_values": "粤·四邑话::2103"
     },
     {
-      "dialect_raw": "雷州话",
-      "raw_count": 2013,
-      "matched_rowid_count": 1554,
+      "dialect_raw": "广府民系，使用粤方言四邑话",
+      "raw_count": 36,
+      "matched_rowid_count": 34,
       "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "闽·雷州话",
-      "suggested_final_count": 2013,
-      "family_mix": "闽::2013",
-      "subgroup_mix": "雷州话::2013",
-      "clean_confidence_mix": "high::2013",
-      "candidate_final_values": "闽·雷州话::2013"
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 36,
+      "family_mix": "粤::36",
+      "subgroup_mix": "四邑话::36",
+      "clean_confidence_mix": "medium::36",
+      "candidate_final_values": "粤·四邑话::36"
     },
     {
-      "dialect_raw": "粤方言台山话",
-      "raw_count": 1612,
-      "matched_rowid_count": 1371,
+      "dialect_raw": "四邑话（粤语方言）",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
       "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·台山话",
-      "suggested_final_count": 1612,
-      "family_mix": "粤::1612",
-      "subgroup_mix": "台山话::1612",
-      "clean_confidence_mix": "high::1612",
-      "candidate_final_values": "粤·台山话::1612"
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤·四邑话::1"
     },
     {
-      "dialect_raw": "粤方言阳春白话",
-      "raw_count": 1580,
-      "matched_rowid_count": 1091,
+      "dialect_raw": "粤方言四包话",
+      "raw_count": 6,
+      "matched_rowid_count": 5,
       "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·阳春白话",
-      "suggested_final_count": 1580,
-      "family_mix": "粤::1580",
-      "subgroup_mix": "阳春白话::1580",
-      "clean_confidence_mix": "high::1580",
-      "candidate_final_values": "粤·阳春白话::1580"
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 6,
+      "family_mix": "粤::6",
+      "subgroup_mix": "四邑话::6",
+      "clean_confidence_mix": "high::6",
+      "candidate_final_values": "粤·四邑话::6"
     },
     {
-      "dialect_raw": "闽方言",
-      "raw_count": 1558,
-      "matched_rowid_count": 1174,
+      "dialect_raw": "使用方言四话（四邑话）",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
       "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "闽",
-      "suggested_final_count": 1558,
-      "family_mix": "闽::1558",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "粤方言四色话",
+      "raw_count": 25,
+      "matched_rowid_count": 21,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 25,
+      "family_mix": "粤::25",
+      "subgroup_mix": "四邑话::25",
+      "clean_confidence_mix": "high::25",
+      "candidate_final_values": "粤·四邑话::25"
+    },
+    {
+      "dialect_raw": "四邑话",
+      "raw_count": 14,
+      "matched_rowid_count": 13,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 14,
+      "family_mix": "粤::14",
+      "subgroup_mix": "四邑话::14",
+      "clean_confidence_mix": "high::14",
+      "candidate_final_values": "粤·四邑话::14"
+    },
+    {
+      "dialect_raw": "粤语四邑话",
+      "raw_count": 6,
+      "matched_rowid_count": 6,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 6,
+      "family_mix": "粤::6",
+      "subgroup_mix": "四邑话::6",
+      "clean_confidence_mix": "high::6",
+      "candidate_final_values": "粤·四邑话::6"
+    },
+    {
+      "dialect_raw": "广府民系，使用四邑话",
+      "raw_count": 6,
+      "matched_rowid_count": 6,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 6,
+      "family_mix": "粤::6",
+      "subgroup_mix": "四邑话::6",
+      "clean_confidence_mix": "medium::6",
+      "candidate_final_values": "粤·四邑话::6"
+    },
+    {
+      "dialect_raw": "使用粤方言四邑话",
+      "raw_count": 10,
+      "matched_rowid_count": 9,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 10,
+      "family_mix": "粤::10",
+      "subgroup_mix": "四邑话::10",
+      "clean_confidence_mix": "medium::10",
+      "candidate_final_values": "粤·四邑话::10"
+    },
+    {
+      "dialect_raw": "四色话",
+      "raw_count": 2,
+      "matched_rowid_count": 2,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 2,
+      "family_mix": "粤::2",
+      "subgroup_mix": "四邑话::2",
+      "clean_confidence_mix": "high::2",
+      "candidate_final_values": "粤·四邑话::2"
+    },
+    {
+      "dialect_raw": "广府民系，使用粤方盲四邑话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "粤方盲四邑话",
+      "raw_count": 6,
+      "matched_rowid_count": 6,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 6,
+      "family_mix": "粤::6",
+      "subgroup_mix": "四邑话::6",
+      "clean_confidence_mix": "high::6",
+      "candidate_final_values": "粤·四邑话::6"
+    },
+    {
+      "dialect_raw": "粤方言（邑话）",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
       "subgroup_mix": "",
-      "clean_confidence_mix": "high::1558",
-      "candidate_final_values": "闽::1558"
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤::1"
+    },
+    {
+      "dialect_raw": "方言四邑话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "high::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "粤方言四邑话（广府民系）",
+      "raw_count": 6,
+      "matched_rowid_count": 6,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 6,
+      "family_mix": "粤::6",
+      "subgroup_mix": "四邑话::6",
+      "clean_confidence_mix": "medium::6",
+      "candidate_final_values": "粤·四邑话::6"
+    },
+    {
+      "dialect_raw": "四邑话（考方言）",
+      "raw_count": 1,
+      "matched_rowid_count": 0,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "广府民系，使用台山四邑话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "粤方言邑话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "",
+      "clean_confidence_mix": "high::1",
+      "candidate_final_values": "粤::1"
+    },
+    {
+      "dialect_raw": "粤方言四话",
+      "raw_count": 5,
+      "matched_rowid_count": 4,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤",
+      "suggested_final_count": 5,
+      "family_mix": "粤::5",
+      "subgroup_mix": "",
+      "clean_confidence_mix": "high::5",
+      "candidate_final_values": "粤::5"
+    },
+    {
+      "dialect_raw": "粤方言四琶话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "",
+      "clean_confidence_mix": "high::1",
+      "candidate_final_values": "粤::1"
+    },
+    {
+      "dialect_raw": "广府民系，使用粤语四邑话",
+      "raw_count": 2,
+      "matched_rowid_count": 2,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 2,
+      "family_mix": "粤::2",
+      "subgroup_mix": "四邑话::2",
+      "clean_confidence_mix": "medium::2",
+      "candidate_final_values": "粤·四邑话::2"
+    },
+    {
+      "dialect_raw": "广府民系，使用萼方言西邑话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "no_mapping",
+      "suggested_final_write_value": "",
+      "suggested_final_count": 0,
+      "family_mix": "",
+      "subgroup_mix": "",
+      "clean_confidence_mix": "low::1",
+      "candidate_final_values": ""
+    },
+    {
+      "dialect_raw": "使用寻方言四邑话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "广府民系，使用粤方言",
+      "raw_count": 55,
+      "matched_rowid_count": 39,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤",
+      "suggested_final_count": 55,
+      "family_mix": "粤::55",
+      "subgroup_mix": "",
+      "clean_confidence_mix": "medium::55",
+      "candidate_final_values": "粤::55"
+    },
+    {
+      "dialect_raw": "华方言四邑话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "high::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "四包话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "high::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "使用雩方言四邑话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "粤方言四目话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "",
+      "clean_confidence_mix": "high::1",
+      "candidate_final_values": "粤::1"
+    },
+    {
+      "dialect_raw": "海方言四邑话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "high::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "尊方言四巨话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "high::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "博方言四邑话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "high::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "方言",
+      "raw_count": 7,
+      "matched_rowid_count": 5,
+      "suggestion_type": "no_mapping",
+      "suggested_final_write_value": "",
+      "suggested_final_count": 0,
+      "family_mix": "",
+      "subgroup_mix": "",
+      "clean_confidence_mix": "low::7",
+      "candidate_final_values": ""
+    },
+    {
+      "dialect_raw": "粤方言",
+      "raw_count": 14751,
+      "matched_rowid_count": 11353,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤",
+      "suggested_final_count": 14751,
+      "family_mix": "粤::14751",
+      "subgroup_mix": "",
+      "clean_confidence_mix": "high::14751",
+      "candidate_final_values": "粤::14751"
+    },
+    {
+      "dialect_raw": "客家方言",
+      "raw_count": 21906,
+      "matched_rowid_count": 16203,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "客家",
+      "suggested_final_count": 21906,
+      "family_mix": "客家::21906",
+      "subgroup_mix": "",
+      "clean_confidence_mix": "high::21906",
+      "candidate_final_values": "客家::21906"
+    },
+    {
+      "dialect_raw": "粤方言四包话（西塘里）/粤方言四邑话（松兴里）",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "粤方言四话（保昌村）/粤方言四邑话（中灵里）",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "广府民系，使用粤方言四邑话；广府民系，使用粤方言四邑话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "广府民系，使用粤方言四邑估",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤::1"
+    },
+    {
+      "dialect_raw": "四邑话（方言）",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
+      "suggestion_type": "stable_single_mapping",
+      "suggested_final_write_value": "粤·四邑话",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤·四邑话::1"
+    },
+    {
+      "dialect_raw": "方言四话",
+      "raw_count": 1,
+      "matched_rowid_count": 0,
+      "suggestion_type": "no_mapping",
+      "suggested_final_write_value": "",
+      "suggested_final_count": 0,
+      "family_mix": "",
+      "subgroup_mix": "",
+      "clean_confidence_mix": "low::1",
+      "candidate_final_values": ""
     },
     {
       "dialect_raw": "粤方言（广府民系）",
       "raw_count": 1452,
-      "matched_rowid_count": 1108,
+      "matched_rowid_count": 1155,
       "suggestion_type": "stable_single_mapping",
       "suggested_final_write_value": "粤",
       "suggested_final_count": 1452,
@@ -438,508 +786,100 @@
       "candidate_final_values": "粤::1452"
     },
     {
-      "dialect_raw": "粤方言恩平话",
-      "raw_count": 1177,
-      "matched_rowid_count": 1030,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·恩平话",
-      "suggested_final_count": 1177,
-      "family_mix": "粤::1177",
-      "subgroup_mix": "恩平话::1177",
-      "clean_confidence_mix": "high::1177",
-      "candidate_final_values": "粤·恩平话::1177"
-    },
-    {
-      "dialect_raw": "粤方言吴川话",
-      "raw_count": 1123,
-      "matched_rowid_count": 729,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·吴川话",
-      "suggested_final_count": 1123,
-      "family_mix": "粤::1123",
-      "subgroup_mix": "吴川话::1123",
-      "clean_confidence_mix": "high::1123",
-      "candidate_final_values": "粤·吴川话::1123"
-    },
-    {
-      "dialect_raw": "粤方言广宁话",
-      "raw_count": 1099,
-      "matched_rowid_count": 796,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·广宁话",
-      "suggested_final_count": 1099,
-      "family_mix": "粤::1099",
-      "subgroup_mix": "广宁话::1099",
-      "clean_confidence_mix": "high::1099",
-      "candidate_final_values": "粤·广宁话::1099"
-    },
-    {
-      "dialect_raw": "粤方言清远白话",
-      "raw_count": 945,
-      "matched_rowid_count": 689,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·清远白话",
-      "suggested_final_count": 945,
-      "family_mix": "粤::945",
-      "subgroup_mix": "清远白话::945",
-      "clean_confidence_mix": "high::945",
-      "candidate_final_values": "粤·清远白话::945"
-    },
-    {
-      "dialect_raw": "粤方言化州白话",
-      "raw_count": 769,
-      "matched_rowid_count": 530,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·化州白话",
-      "suggested_final_count": 769,
-      "family_mix": "粤::769",
-      "subgroup_mix": "化州白话::769",
-      "clean_confidence_mix": "high::769",
-      "candidate_final_values": "粤·化州白话::769"
-    },
-    {
-      "dialect_raw": "粤方言德庆话",
-      "raw_count": 696,
-      "matched_rowid_count": 604,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·德庆话",
-      "suggested_final_count": 696,
-      "family_mix": "粤::696",
-      "subgroup_mix": "德庆话::696",
-      "clean_confidence_mix": "high::696",
-      "candidate_final_values": "粤·德庆话::696"
-    },
-    {
-      "dialect_raw": "闽方言电白黎话",
-      "raw_count": 683,
-      "matched_rowid_count": 602,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "闽·电白黎话",
-      "suggested_final_count": 683,
-      "family_mix": "闽::683",
-      "subgroup_mix": "电白黎话::683",
-      "clean_confidence_mix": "high::683",
-      "candidate_final_values": "闽·电白黎话::683"
-    },
-    {
-      "dialect_raw": "使用客家方言",
-      "raw_count": 566,
-      "matched_rowid_count": 435,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "客家",
-      "suggested_final_count": 566,
-      "family_mix": "客家::566",
-      "subgroup_mix": "",
-      "clean_confidence_mix": "medium::566",
-      "candidate_final_values": "客家::566"
-    },
-    {
-      "dialect_raw": "粤语开建话",
-      "raw_count": 511,
-      "matched_rowid_count": 390,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·开建话",
-      "suggested_final_count": 511,
-      "family_mix": "粤::511",
-      "subgroup_mix": "开建话::511",
-      "clean_confidence_mix": "high::511",
-      "candidate_final_values": "粤·开建话::511"
-    },
-    {
-      "dialect_raw": "客家方言始兴话",
-      "raw_count": 508,
-      "matched_rowid_count": 394,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "客家·始兴话",
-      "suggested_final_count": 508,
-      "family_mix": "客家::508",
-      "subgroup_mix": "始兴话::508",
-      "clean_confidence_mix": "high::508",
-      "candidate_final_values": "客家·始兴话::508"
-    },
-    {
-      "dialect_raw": "台山话",
-      "raw_count": 473,
-      "matched_rowid_count": 410,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·台山话",
-      "suggested_final_count": 473,
-      "family_mix": "粤::473",
-      "subgroup_mix": "台山话::473",
-      "clean_confidence_mix": "high::473",
-      "candidate_final_values": "粤·台山话::473"
-    },
-    {
-      "dialect_raw": "闽南方言潮州话",
-      "raw_count": 471,
-      "matched_rowid_count": 357,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "闽·潮汕话",
-      "suggested_final_count": 471,
-      "family_mix": "闽::471",
-      "subgroup_mix": "潮汕话::471",
-      "clean_confidence_mix": "high::471",
-      "candidate_final_values": "闽·潮汕话::471"
-    },
-    {
-      "dialect_raw": "粤方言封川话",
-      "raw_count": 443,
-      "matched_rowid_count": 346,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·封川话",
-      "suggested_final_count": 443,
-      "family_mix": "粤::443",
-      "subgroup_mix": "封川话::443",
-      "clean_confidence_mix": "high::443",
-      "candidate_final_values": "粤·封川话::443"
-    },
-    {
-      "dialect_raw": "闽方言潮汕话",
-      "raw_count": 443,
-      "matched_rowid_count": 327,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "闽·潮汕话",
-      "suggested_final_count": 443,
-      "family_mix": "闽::443",
-      "subgroup_mix": "潮汕话::443",
-      "clean_confidence_mix": "high::443",
-      "candidate_final_values": "闽·潮汕话::443"
-    },
-    {
-      "dialect_raw": "粤方言高州话",
-      "raw_count": 429,
-      "matched_rowid_count": 251,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·高州话",
-      "suggested_final_count": 429,
-      "family_mix": "粤::429",
-      "subgroup_mix": "高州话::429",
-      "clean_confidence_mix": "high::429",
-      "candidate_final_values": "粤·高州话::429"
-    },
-    {
-      "dialect_raw": "粤方言沙田话",
-      "raw_count": 400,
-      "matched_rowid_count": 260,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·沙田话",
-      "suggested_final_count": 400,
-      "family_mix": "粤::400",
-      "subgroup_mix": "沙田话::400",
-      "clean_confidence_mix": "high::400",
-      "candidate_final_values": "粤·沙田话::400"
-    },
-    {
-      "dialect_raw": "通用台山话",
-      "raw_count": 398,
-      "matched_rowid_count": 340,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·台山话",
-      "suggested_final_count": 398,
-      "family_mix": "粤::398",
-      "subgroup_mix": "台山话::398",
-      "clean_confidence_mix": "medium::398",
-      "candidate_final_values": "粤·台山话::398"
-    },
-    {
-      "dialect_raw": "粤方言怀集下坊话",
-      "raw_count": 382,
-      "matched_rowid_count": 257,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·怀集下坊话",
-      "suggested_final_count": 382,
-      "family_mix": "粤::382",
-      "subgroup_mix": "怀集下坊话::382",
-      "clean_confidence_mix": "high::382",
-      "candidate_final_values": "粤·怀集下坊话::382"
-    },
-    {
-      "dialect_raw": "通用雷州话",
-      "raw_count": 375,
-      "matched_rowid_count": 283,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "闽·雷州话",
-      "suggested_final_count": 375,
-      "family_mix": "闽::375",
-      "subgroup_mix": "雷州话::375",
-      "clean_confidence_mix": "medium::375",
-      "candidate_final_values": "闽·雷州话::375"
-    },
-    {
-      "dialect_raw": "通用粤方言",
-      "raw_count": 349,
-      "matched_rowid_count": 238,
+      "dialect_raw": "粤方言（新村）；粤方言（龙湾村）",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
       "suggestion_type": "stable_single_mapping",
       "suggested_final_write_value": "粤",
-      "suggested_final_count": 349,
-      "family_mix": "粤::349",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
       "subgroup_mix": "",
-      "clean_confidence_mix": "medium::349",
-      "candidate_final_values": "粤::349"
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤::1"
     },
     {
-      "dialect_raw": "粤方言高阳片阳江话",
-      "raw_count": 328,
-      "matched_rowid_count": 228,
+      "dialect_raw": "粤方言信宜话",
+      "raw_count": 2,
+      "matched_rowid_count": 2,
       "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·阳江话",
-      "suggested_final_count": 328,
-      "family_mix": "粤::328",
-      "subgroup_mix": "阳江话::328",
-      "clean_confidence_mix": "high::328",
-      "candidate_final_values": "粤·阳江话::328"
-    },
-    {
-      "dialect_raw": "粤方言怀集上坊话",
-      "raw_count": 303,
-      "matched_rowid_count": 223,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·怀集上坊话",
-      "suggested_final_count": 303,
-      "family_mix": "粤::303",
-      "subgroup_mix": "怀集上坊话::303",
-      "clean_confidence_mix": "high::303",
-      "candidate_final_values": "粤·怀集上坊话::303"
-    },
-    {
-      "dialect_raw": "客家方言阳春倔话",
-      "raw_count": 302,
-      "matched_rowid_count": 261,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "客家·阳春涯话",
-      "suggested_final_count": 302,
-      "family_mix": "客家::302",
-      "subgroup_mix": "阳春涯话::302",
-      "clean_confidence_mix": "high::302",
-      "candidate_final_values": "客家·阳春涯话::302"
-    },
-    {
-      "dialect_raw": "粤语封川话",
-      "raw_count": 284,
-      "matched_rowid_count": 192,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·封川话",
-      "suggested_final_count": 284,
-      "family_mix": "粤::284",
-      "subgroup_mix": "封川话::284",
-      "clean_confidence_mix": "high::284",
-      "candidate_final_values": "粤·封川话::284"
-    },
-    {
-      "dialect_raw": "粤方言蛇声",
-      "raw_count": 279,
-      "matched_rowid_count": 187,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·蛇声",
-      "suggested_final_count": 279,
-      "family_mix": "粤::279",
-      "subgroup_mix": "蛇声::279",
-      "clean_confidence_mix": "medium::279",
-      "candidate_final_values": "粤·蛇声::279"
-    },
-    {
-      "dialect_raw": "客家话",
-      "raw_count": 273,
-      "matched_rowid_count": 211,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "客家",
-      "suggested_final_count": 273,
-      "family_mix": "客家::273",
+      "suggested_final_write_value": "粤",
+      "suggested_final_count": 2,
+      "family_mix": "粤::2",
       "subgroup_mix": "",
-      "clean_confidence_mix": "high::273",
-      "candidate_final_values": "客家::273"
+      "clean_confidence_mix": "high::2",
+      "candidate_final_values": "粤::2"
     },
     {
-      "dialect_raw": "客家方言涯话",
-      "raw_count": 272,
-      "matched_rowid_count": 210,
+      "dialect_raw": "粤方言预色话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
       "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "客家·涯话",
-      "suggested_final_count": 272,
-      "family_mix": "客家::272",
-      "subgroup_mix": "涯话::272",
-      "clean_confidence_mix": "high::272",
-      "candidate_final_values": "客家·涯话::272"
-    },
-    {
-      "dialect_raw": "电白海话",
-      "raw_count": 264,
-      "matched_rowid_count": 235,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "闽·电白海话",
-      "suggested_final_count": 264,
-      "family_mix": "闽::264",
-      "subgroup_mix": "电白海话::264",
-      "clean_confidence_mix": "high::264",
-      "candidate_final_values": "闽·电白海话::264"
-    },
-    {
-      "dialect_raw": "潮州话",
-      "raw_count": 258,
-      "matched_rowid_count": 195,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "闽·潮汕话",
-      "suggested_final_count": 258,
-      "family_mix": "闽::258",
-      "subgroup_mix": "潮汕话::258",
-      "clean_confidence_mix": "high::258",
-      "candidate_final_values": "闽·潮汕话::258"
-    },
-    {
-      "dialect_raw": "粤方言阳江话",
-      "raw_count": 258,
-      "matched_rowid_count": 205,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·阳江话",
-      "suggested_final_count": 258,
-      "family_mix": "粤::258",
-      "subgroup_mix": "阳江话::258",
-      "clean_confidence_mix": "high::258",
-      "candidate_final_values": "粤·阳江话::258"
-    },
-    {
-      "dialect_raw": "通用客家方言",
-      "raw_count": 258,
-      "matched_rowid_count": 202,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "客家",
-      "suggested_final_count": 258,
-      "family_mix": "客家::258",
+      "suggested_final_write_value": "粤",
+      "suggested_final_count": 1,
+      "family_mix": "粤::1",
       "subgroup_mix": "",
-      "clean_confidence_mix": "medium::258",
-      "candidate_final_values": "客家::258"
+      "clean_confidence_mix": "high::1",
+      "candidate_final_values": "粤::1"
     },
     {
-      "dialect_raw": "闽方言电白海话",
-      "raw_count": 257,
-      "matched_rowid_count": 233,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "闽·电白海话",
-      "suggested_final_count": 257,
-      "family_mix": "闽::257",
-      "subgroup_mix": "电白海话::257",
-      "clean_confidence_mix": "high::257",
-      "candidate_final_values": "闽·电白海话::257"
+      "dialect_raw": "",
+      "raw_count": 933,
+      "matched_rowid_count": 704,
+      "suggestion_type": "no_mapping",
+      "suggested_final_write_value": "",
+      "suggested_final_count": 0,
+      "family_mix": "",
+      "subgroup_mix": "",
+      "clean_confidence_mix": "low::933",
+      "candidate_final_values": ""
     },
     {
-      "dialect_raw": "客家方言和粤方言",
-      "raw_count": 241,
-      "matched_rowid_count": 171,
+      "dialect_raw": "粤方言、客家方言",
+      "raw_count": 123,
+      "matched_rowid_count": 94,
       "suggestion_type": "stable_single_mapping",
       "suggested_final_write_value": "粤、客家",
-      "suggested_final_count": 241,
-      "family_mix": "混合::241",
+      "suggested_final_count": 123,
+      "family_mix": "混合::123",
       "subgroup_mix": "",
-      "clean_confidence_mix": "medium::241",
-      "candidate_final_values": "粤、客家::241"
+      "clean_confidence_mix": "medium::123",
+      "candidate_final_values": "粤、客家::123"
     },
     {
-      "dialect_raw": "粤语怀集下坊话",
-      "raw_count": 239,
-      "matched_rowid_count": 166,
+      "dialect_raw": "粤方言四邑话、客家方言",
+      "raw_count": 3,
+      "matched_rowid_count": 3,
       "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·怀集下坊话",
-      "suggested_final_count": 239,
-      "family_mix": "粤::239",
-      "subgroup_mix": "怀集下坊话::239",
-      "clean_confidence_mix": "high::239",
-      "candidate_final_values": "粤·怀集下坊话::239"
+      "suggested_final_write_value": "粤、客家",
+      "suggested_final_count": 3,
+      "family_mix": "混合::3",
+      "subgroup_mix": "四邑话::3",
+      "clean_confidence_mix": "medium::3",
+      "candidate_final_values": "粤、客家::3"
     },
     {
-      "dialect_raw": "粤方言化州话",
-      "raw_count": 238,
-      "matched_rowid_count": 165,
+      "dialect_raw": "客家方言、粤方言",
+      "raw_count": 93,
+      "matched_rowid_count": 77,
       "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·化州话",
-      "suggested_final_count": 238,
-      "family_mix": "粤::238",
-      "subgroup_mix": "化州话::238",
-      "clean_confidence_mix": "high::238",
-      "candidate_final_values": "粤·化州话::238"
-    },
-    {
-      "dialect_raw": "粤方言高要话",
-      "raw_count": 221,
-      "matched_rowid_count": 162,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·高要话",
-      "suggested_final_count": 221,
-      "family_mix": "粤::221",
-      "subgroup_mix": "高要话::221",
-      "clean_confidence_mix": "high::221",
-      "candidate_final_values": "粤·高要话::221"
-    },
-    {
-      "dialect_raw": "星子话",
-      "raw_count": 215,
-      "matched_rowid_count": 176,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·星子话",
-      "suggested_final_count": 215,
-      "family_mix": "粤::215",
-      "subgroup_mix": "星子话::215",
-      "clean_confidence_mix": "high::215",
-      "candidate_final_values": "粤·星子话::215"
-    },
-    {
-      "dialect_raw": "吴川话",
-      "raw_count": 210,
-      "matched_rowid_count": 119,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·吴川话",
-      "suggested_final_count": 210,
-      "family_mix": "粤::210",
-      "subgroup_mix": "吴川话::210",
-      "clean_confidence_mix": "high::210",
-      "candidate_final_values": "粤·吴川话::210"
-    },
-    {
-      "dialect_raw": "闽方言雷州话",
-      "raw_count": 204,
-      "matched_rowid_count": 109,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "闽·雷州话",
-      "suggested_final_count": 204,
-      "family_mix": "闽::204",
-      "subgroup_mix": "雷州话::204",
-      "clean_confidence_mix": "high::204",
-      "candidate_final_values": "闽·雷州话::204"
-    },
-    {
-      "dialect_raw": "闽南方言饶平潮州话",
-      "raw_count": 201,
-      "matched_rowid_count": 156,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "闽·潮汕话",
-      "suggested_final_count": 201,
-      "family_mix": "闽::201",
-      "subgroup_mix": "潮汕话::201",
-      "clean_confidence_mix": "high::201",
-      "candidate_final_values": "闽·潮汕话::201"
-    },
-    {
-      "dialect_raw": "客家方言倔话",
-      "raw_count": 200,
-      "matched_rowid_count": 184,
-      "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "客家",
-      "suggested_final_count": 200,
-      "family_mix": "客家::200",
+      "suggested_final_write_value": "粤、客家",
+      "suggested_final_count": 93,
+      "family_mix": "混合::93",
       "subgroup_mix": "",
-      "clean_confidence_mix": "high::200",
-      "candidate_final_values": "客家::200"
+      "clean_confidence_mix": "medium::93",
+      "candidate_final_values": "粤、客家::93"
     },
     {
-      "dialect_raw": "粤方言鼎湖话",
-      "raw_count": 190,
-      "matched_rowid_count": 115,
+      "dialect_raw": "客家方言、粤方言四邑话",
+      "raw_count": 1,
+      "matched_rowid_count": 1,
       "suggestion_type": "stable_single_mapping",
-      "suggested_final_write_value": "粤·鼎湖话",
-      "suggested_final_count": 190,
-      "family_mix": "粤::190",
-      "subgroup_mix": "鼎湖话::190",
-      "clean_confidence_mix": "high::190",
-      "candidate_final_values": "粤·鼎湖话::190"
+      "suggested_final_write_value": "粤、客家",
+      "suggested_final_count": 1,
+      "family_mix": "混合::1",
+      "subgroup_mix": "四邑话::1",
+      "clean_confidence_mix": "medium::1",
+      "candidate_final_values": "粤、客家::1"
     }
   ]
 }

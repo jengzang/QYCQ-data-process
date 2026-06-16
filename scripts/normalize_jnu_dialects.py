@@ -8,12 +8,21 @@ from pathlib import Path
 DB_PATH = Path('villages_fromJNU.db')
 
 FAMILY_RULES = [
-    ('粤', re.compile(r'粤方言|粤语|白话|广府话|广府方言|四邑话|台山话|恩平话|高州话|吴川话|阳江话|阳春白话|广宁话|德庆话|封川话|石岐话|东莞.*话|四会话|连州话|龙门话|开建话|怀集.*话|星子话|袂花话|高要话|鼎湖.*话|沙田话|化州话')),
+    ('粤', re.compile(r'粤方言|粤语|白话|广府话|广府方言|四邑话|台山话|恩平话|高州话|吴川话|阳江话|阳春白话|广宁话|德庆话|封川话|石岐话|四会话|连州话|龙门话|开建话|怀集.*话|星子话|袂花话|高要话|鼎湖.*话|沙田话|化州话')),
     ('客家', re.compile(r'客家方言|客家话|客家语言|客家语|客方言|涯话|倔话|涯语|上莞话|清化话|黄村话|叶潭话|蓝口话|仁化董塘话|仁化长江话|四会地豆话|四会迳口话|偃话')),
     ('闽', re.compile(r'闽方言|闽南方言|闽南语|潮州话|潮州语|潮汕话|潮汕方言|潮油话|学佬话|黎话|海话|海丰话|福佬话|雷州话|雷州方言|雷话|隆都话|连滩话|电白黎话|电白海话')),
     ('少数民族', re.compile(r'壮话|壮语|壮方言|瑶话|瑶语|瑶族方言|畲话|畬话|勉语|蓝田话')),
     ('土话', re.compile(r'虱婆声|虱话|潭岭话|黄圃话|土话')),
     ('官话', re.compile(r'普通话|旧时正话|四川话|四川方言|重庆话|重庆方言|军话|军声|官话')),
+]
+
+EXPLICIT_FAMILY_PREFIX_RULES = [
+    ('客家', re.compile(r'^(?:使用)?客家(?:方言|话|语言|语)')),
+    ('粤', re.compile(r'^(?:使用)?粤(?:方言|语)|^(?:使用)?白话|^(?:使用)?广府(?:话|方言)')),
+    ('闽', re.compile(r'^(?:使用)?闽(?:方言|南方言|南语)|^(?:使用)?潮(?:州话|州语|汕话)|^(?:使用)?学佬话|^(?:使用)?福佬话|^(?:使用)?雷州方言|^(?:使用)?雷话')),
+    ('少数民族', re.compile(r'^(?:使用)?(?:壮话|壮语|壮方言|瑶话|瑶语|瑶族方言|畲话|畬话|蓝田话)')),
+    ('土话', re.compile(r'^(?:使用)?(?:土话|虱婆声|虱话|潭岭话|黄圃话)')),
+    ('官话', re.compile(r'^(?:使用)?(?:普通话|旧时正话|四川话|四川方言|重庆话|重庆方言|军话|军声|官话)')),
 ]
 
 SUBGROUP_PATTERNS = [
@@ -325,6 +334,12 @@ def classify_row(text: str):
     usage_notes = detect_usage_notes(raw)
     paren_notes = [m for m in PAREN_RE.findall(raw) if m]
 
+    explicit_family = None
+    for family_name, family_pattern in EXPLICIT_FAMILY_PREFIX_RULES:
+        if family_pattern.search(raw):
+            explicit_family = family_name
+            break
+
     if raw in DIRECT_RAW_VALUE_MAP:
         forced_family, forced_subgroup = DIRECT_RAW_VALUE_MAP[raw]
         primary_family = forced_family
@@ -340,6 +355,9 @@ def classify_row(text: str):
         for family in families:
             if family not in unique_families:
                 unique_families.append(family)
+
+        if explicit_family:
+            unique_families = [explicit_family]
 
         if len(unique_families) == 0:
             primary_family = None
