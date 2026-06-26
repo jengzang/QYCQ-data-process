@@ -18,8 +18,6 @@ def create_output_db(config_path='mapping_config.json'):
     config = load_config(config_path)
     out_dir = root / config['output_dir']
     db_path = root / 'villages_fromJNU.db'
-    if db_path.exists():
-        db_path.unlink()
 
     _, xlsx_rows = load_xlsx_rows(root / config['xlsx_path'])
     natural_rows = read_csv(out_dir / 'natural_village_mapping.csv')
@@ -28,6 +26,9 @@ def create_output_db(config_path='mapping_config.json'):
     conn = sqlite3.connect(db_path)
     cur = conn.cursor()
     cur.execute('PRAGMA journal_mode=WAL')
+
+    cur.execute('DROP TABLE IF EXISTS jnu_villages')
+    cur.execute('DROP TABLE IF EXISTS match_summary')
     cur.execute('''
         CREATE TABLE jnu_villages (
             jnu_rowid INTEGER PRIMARY KEY,

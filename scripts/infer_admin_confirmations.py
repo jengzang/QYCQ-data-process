@@ -158,7 +158,7 @@ def classify_confidence(top_score, second_score, coverage_ratio):
 
 def infer_admin_candidates():
     out_dir = Path('outputs')
-    unresolved = load_csv(out_dir / 'admin_village_core_unresolved.csv')
+    unresolved = load_csv(out_dir / 'admin_village_unresolved.csv')
     natural_rows = load_csv(out_dir / 'natural_village_mapping.csv')
 
     db_scope_admin_naturals = load_db_scope_admin_naturals()

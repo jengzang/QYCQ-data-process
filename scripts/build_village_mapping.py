@@ -356,6 +356,7 @@ def main(config_path='mapping_config.json'):
         town = normalize_text(row[town_spec['xlsx_col']])
         admin = normalize_text(row[admin_spec['xlsx_col']])
         natural = normalize_text(row[natural_spec['xlsx_col']])
+        matched_rowid = ''
         city_info = city_state.get(city, {'status': 'unmatched', 'matched': None, 'candidate_values': []})
         town_info = town_state.get((city, town), {'status': 'unmatched', 'matched': None, 'candidate_values': []})
         admin_info = admin_state.get((city, town, admin), {'status': 'unmatched', 'matched': None, 'candidate_values': [], 'original_status': 'unmatched', 'resolved_scopes': []})
