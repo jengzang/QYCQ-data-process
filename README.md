@@ -1,51 +1,150 @@
 # villages_matching
 
-用于把 `Village.xlsx`（JNU 自然村方言数据）与 `villages.db`（广东省自然村基础库）建立层级匹配，并在中间库 `villages_fromJNU.db` 中沉淀匹配结果、方言归并结果和后续 review 产物。
+用于把 `Village.xlsx`（JNU 自然村方言数据）与 `villages.db`（广东省自然村基础库）建立层级匹配，并在 `villages_fromJNU.db` 中沉淀匹配结果、方言清洗结果及后续 review / 写回产物。
 
-项目当前可确认分为三阶段：
+本 README 只记录“当前仓库里已经实际查到的脚本与流程”，不把历史口头步骤当成现存脚本。
 
-1. 匹配阶段
-   - 目标：把 `归属市 -> 归属镇 -> 归属行政村 -> 村名` 逐级对应到 `villages.db` 的唯一 `rowid`
-   - 主要脚本：`scripts/build_village_mapping.py`
-   - 辅助脚本：
-     - `scripts/infer_town_confirmations.py`
-     - `scripts/infer_admin_confirmations.py`
-     - `scripts/apply_natural_rule_d.py`
-     - `scripts/confirm_duplicate_natural_min_rowid.py`
+## 先纠正一个关键点
 
-2. 中间库落库阶段
-   - 目标：把匹配结果落到 `villages_fromJNU.db`
-   - 主要脚本：`scripts/export_jnu_villages_db.py`
-   - 当前库内主表：
-     - `jnu_villages`
-     - `match_summary`
+我已重新核查当前仓库：
 
-3. 方言归并阶段
-   - 目标：把 `dialect_raw` 归并成结构化字段，并生成 review 产物
-   - 已确认入口：`scripts/normalize_jnu_dialects.py`
-   - 当前可重建表：
-     - `jnu_dialect_clean`
-     - `jnu_dialect_clean_summary`
-   - 当前已知 review 产物目录：`artifacts/dialect_review/`
-     - `dialect_raw_grouping_review.csv`
-     - `dialect_review_summary.json`
-     - `complex_mixed_rowid_review.csv`
-     - `complex_mixed_value_summary.csv`
+- 没有找到任何文件明确叫 `step3b`
+- 也没有找到脚本、README、注释把“step3b”直接标记为现存入口
+- 当前 `scripts/` 里也没有查到明显的“距离计算脚本”命名或 `distance / haversine / geodesic / nearest` 这类实现痕迹
 
-注意：仓库里“基础归并脚本”可以直接重建 `jnu_dialect_clean`，但“把归并结果继续聚合为最终写回值（例如 `final_write_value` / `final_write_value_by_rowid`）”的后半段脚本入口，目前在现有 `scripts/` 目录中还未完全重新定位；不过对应 review 产物已经存在，说明这一步历史上确实跑通过。
+所以，按当前仓库可验证事实：
 
-## 数据文件
+- 我不能确认“step3b 脚本现在还在仓库里”
+- 更不能确认“当前仓库里能直接运行的 step3b 就是距离计算脚本”
+
+如果你记忆中的 `step3b` 是“计算距离”的历史步骤，那么它目前至少不是以可直接识别的 `step3b` 名称保留在仓库里。
+
+## 当前仓库里实际能确认的阶段
+
+### 阶段 1：层级匹配
+
+目标：
+把 `归属市 -> 归属镇 -> 归属行政村 -> 村名` 逐级匹配到 `villages.db` 的 `rowid`。
+
+主脚本：
+- `scripts/build_village_mapping.py`
+
+辅助脚本：
+- `scripts/infer_town_confirmations.py`
+- `scripts/infer_admin_confirmations.py`
+- `scripts/apply_natural_rule_d.py`
+- `scripts/confirm_duplicate_natural_min_rowid.py`
+
+主要输出：
+- `outputs/city_mapping.csv`
+- `outputs/town_mapping.csv`
+- `outputs/admin_village_mapping.csv`
+- `outputs/natural_village_mapping.csv`
+- `outputs/natural_village_unresolved.csv`
+- `outputs/manual_confirmed_mappings.csv`
+- `outputs/matching_summary.json`
+
+### 阶段 1.5：step3b 跨镇行政村补确认（现已脚本化）
+
+目标：
+把历史上已经产出的 step3b 距离候选结果，明确落成“可再次运行”的脚本，自动把可接受的跨镇行政村确认写回 `outputs/manual_confirmed_mappings.csv`，并导出剩余待复核清单。
+
+主脚本：
+- `scripts/apply_step3b_admin_confirmations.py`
+
+使用的数据来源：
+- `artifacts/step3b_auto_accept_town_distance_le_20km_name_close.csv`
+- `artifacts/step3b_relaxed_candidates_26.csv`
+- `artifacts/step3b_review_town_distance_le_10km.csv`
+
+脚本行为：
+1. 把 `step3b_auto_accept_town_distance_le_20km_name_close.csv` 中 `auto_accept=yes` 的记录追加写入 `outputs/manual_confirmed_mappings.csv`
+2. 把 `step3b_relaxed_candidates_26.csv` 中 `group=single_candidate` 的记录追加写入 `outputs/manual_confirmed_mappings.csv`
+3. 不重复追加已经存在的 `(level, parent_scope, source_value)`
+4. 生成剩余待人工复核清单：
+   - `outputs/step3b_remaining_review_candidates.csv`
+
+写回格式说明：
+- 实际写入目标仍是 `outputs/manual_confirmed_mappings.csv`
+- `source_suggestions` 会保留 step3b 证据，例如：
+  - `step3b_auto_accept_20km_name_close:...`
+  - `step3b_relaxed_single_candidate:...`
+- 后续再次运行 `scripts/build_village_mapping.py` 时，这些确认会重新参与正式匹配流程
+
+### 阶段 2：匹配结果落中间库
+把 `natural_village_mapping.csv` 的匹配结果写入 `villages_fromJNU.db`。
+
+主脚本：
+- `scripts/export_jnu_villages_db.py`
+
+会重建的表：
+- `jnu_villages`
+- `match_summary`
+
+注意：
+- 这一步是“匹配结果落库”
+- 不是距离计算步骤
+- 也不是最终写回 `villages.db` 的步骤
+
+### 阶段 3：方言清洗与归并
+
+目标：
+把 JNU 原始 `dialect_raw` 清洗成结构化字段，并生成 review 产物。
+
+主脚本：
+- `scripts/normalize_jnu_dialects.py`
+
+后续聚合 / 写回相关脚本：
+- `scripts/build_dialect_write_values.py`
+- `scripts/rebuild_and_fill_dialect_empty_only.py`
+- `scripts/preview_standardize_dialect_values.py`
+- `scripts/apply_standardize_dialect_values.py`
+
+其中：
+
+1. `build_dialect_write_values.py`
+   - 在 `jnu_dialect_clean` 基础上生成：
+     - `final_write_value`
+     - `final_write_value_by_rowid`
+   - 导出 review 产物
+
+2. `rebuild_and_fill_dialect_empty_only.py`
+   - 从 `villages_fromJNU.db` 聚合出 `matched_db_rowid -> final_write_value`
+   - 只给 `villages.db` 中 `方言分布` 为空的记录补值
+   - 写回前自动备份
+   - 写回后做对照校验
+
+3. `apply_standardize_dialect_values.py`
+   - 对 `final_write_value_by_rowid` 以及 `villages.db.方言分布` 做标准化整理
+   - 规则：同家族细分类保留、同家族裸类在有细类时去重、跨家族成分保留
+
+## 当前仓库中未确认存在的内容
+
+以下内容目前没有在仓库中查到可直接对应的脚本入口：
+
+1. 名为 `step3b` 的脚本或明确阶段文件
+2. 明确以“距离计算”为职责的现成脚本
+3. 以“距离排序 / 最近点候选 / 经纬度打分”命名的独立实现入口
+
+也就是说：
+
+- 如果历史上确实有一个 “step3b = 距离计算” 的步骤
+- 那它当前要么已经丢失
+- 要么被并入别的脚本且不再保留原命名
+- 要么存在于历史聊天/历史版本里，但不在当前工作区可直接识别
+
+## 当前确认的数据文件
 
 - `Village.xlsx`
   - JNU 原始 Excel 数据
 - `villages.db`
-  - 目标基础库，主表是 `广东省自然村`
+  - 目标基础库，主表为 `广东省自然村`
 - `villages_fromJNU.db`
-  - 中间库，保存匹配结果与方言归并结果
+  - 中间库，保存匹配结果与方言清洗结果
 - `mapping_config.json`
-  - 层级字段映射、后缀清洗规则、建议阈值
+  - 匹配字段映射、后缀规则、建议阈值
 
-## 当前确认的主表结构
+## 当前确认的主表
 
 ### `villages.db`
 表：`广东省自然村`
@@ -56,10 +155,14 @@
 - `乡镇级`
 - `行政村`
 - `自然村`
+- `longitude`
+- `latitude`
 - `方言分布`
 - `搜索用`
 
-无声明主键；匹配/写回默认依赖 SQLite `rowid`。
+说明：
+- 表没有声明主键
+- 当前匹配 / 写回默认依赖 SQLite `rowid`
 
 ### `villages_fromJNU.db`
 表：`jnu_villages`
@@ -74,6 +177,7 @@
 - `matched_db_city`
 - `matched_db_town`
 - `matched_db_admin_village`
+- `matched_db_natural_village`
 - `matched_db_rowid`
 - `match_status`
 
@@ -82,159 +186,68 @@
 
 表：`jnu_dialect_clean`
 - 由 `scripts/normalize_jnu_dialects.py` 重建
-- 当前字段包括：
-  - `dialect_raw_norm`
-  - `primary_family`
-  - `mixed_family_text`
-  - `family_tags_json`
-  - `primary_subgroup`
-  - `mixed_subgroup_text`
-  - `subgroup_tags_json`
-  - `accent_tags_json`
-  - `identity_tags_json`
-  - `usage_notes_json`
-  - `paren_notes_json`
-  - `segments_json`
-  - `clean_confidence`
+- 保存方言清洗结构化结果
 
-表：`jnu_dialect_clean_summary`
-- 保存归并摘要统计
+## 当前确认的运行顺序
 
-## 已确认的运行顺序
-
-### 1. 重新构建匹配 CSV
+### 1. 重建匹配 CSV
 ```bash
 python3 scripts/build_village_mapping.py
 ```
 
-输出目录：`outputs/`
+### 2. 补跑 step3b 跨镇行政村确认脚本
+```bash
+python3 scripts/apply_step3b_admin_confirmations.py
+python3 scripts/build_village_mapping.py
+```
 
-关键文件：
-- `city_mapping.csv`
-- `town_mapping.csv`
-- `admin_village_mapping.csv`
-- `natural_village_mapping.csv`
-- `manual_confirmed_mappings.csv`
-- `matching_summary.json`
+说明：
+- 第一个命令会把 step3b 已接受候选落到 `outputs/manual_confirmed_mappings.csv`
+- 第二个命令会基于这些确认重新生成各级 mapping / unresolved 结果
+- 若只想看还有哪些 step3b 候选待复核，可查看：
+  - `outputs/step3b_remaining_review_candidates.csv`
 
-### 2. 必要时跑匹配补充规则
-处理自然村后缀扩展歧义：
+### 3. 必要时补跑其他规则 / 反推确认
 ```bash
 python3 scripts/apply_natural_rule_d.py
-python3 scripts/build_village_mapping.py
-```
-
-处理重复 row 的最小 rowid 自动确认：
-```bash
 python3 scripts/confirm_duplicate_natural_min_rowid.py
-python3 scripts/build_village_mapping.py
-```
-
-如有镇/行政村反推确认脚本，也是在重跑主 mapping 前后使用：
-```bash
 python3 scripts/infer_town_confirmations.py
 python3 scripts/infer_admin_confirmations.py
 python3 scripts/build_village_mapping.py
 ```
 
-### 3. 把最新匹配结果落到中间库
+### 4. 把匹配结果写入中间库
 ```bash
 python3 scripts/export_jnu_villages_db.py
 ```
 
-这一步会重建 `villages_fromJNU.db`，因此如果中间库里已有别的后续产物，应当在运行前确认是否需要备份。
-
-### 4. 运行基础方言归并
+### 5. 重建方言清洗表
 ```bash
 python3 scripts/normalize_jnu_dialects.py
 ```
 
-这一步会：
-- 删除并重建 `jnu_dialect_clean`
-- 删除并重建 `jnu_dialect_clean_summary`
-
-### 5. 查看 review 产物
-```text
-artifacts/dialect_review/
+### 6. 构建最终写回值 / review 产物
+```bash
+python3 scripts/build_dialect_write_values.py
 ```
 
-当前已知重要产物：
-- `dialect_raw_grouping_review.csv`
-- `dialect_review_summary.json`
-- `complex_mixed_rowid_review.csv`
-- `complex_mixed_value_summary.csv`
-
-## 当前已确认的匹配结果
-
-当前一轮最终匹配结果（以唯一 `rowid` 可写回为准）：
-
-- 市级：`18 / 18`，`100.0000%`
-- 镇级：`995 / 1008`，`98.7103%`
-- 行政村级：`12379 / 13361`，`92.6503%`
-- 自然村级：`66333 / 81983`，`80.9107%`
-
-自然村状态分布：
-- `suffix_normalized = 48612`
-- `exact = 8844`
-- `manual_confirmed = 6733`
-- `unmatched = 13718`
-- `ambiguous_row_scope = 1167`
-- `blocked_by_parent = 2821`
-- `ambiguous_normalized = 88`
-
-这些结果已同步进：
-- `villages_fromJNU.db.jnu_villages`
-- `villages_fromJNU.db.match_summary`
-
-## 当前确认的方言归并规则来源
-
-`normalize_jnu_dialects.py` 里已内置大量规则：
-- `FAMILY_RULES`
-- `SUBGROUP_PATTERNS`
-- `ALIAS_SUBGROUPS`
-- `DIRECT_RAW_VALUE_MAP`
-
-已确认包含的归并方向示例：
-- `高阳片阳江话 -> 阳江话`
-- `潮州话 -> 潮汕话`
-- `粤方言古话 -> 能古话`
-- `客家方言阳春倔话 -> 客家·阳春涯话`
-- `土话 / 官话 / 湘语` 这些扩展类目也已经在规则中出现
-
-## 当前已知风险
-
-1. `scripts/export_jnu_villages_db.py` 会直接删除重建 `villages_fromJNU.db`
-   - 如果中间库里已有后续产物，先备份再运行
-
-2. `scripts/normalize_jnu_dialects.py` 目前只重建“基础归并层”
-   - 它不会直接生成旧库里曾经出现的 `final_write_value` / `final_write_value_by_rowid`
-   - 后半段“按 rowid 聚合最终写回值”的脚本链路仍需继续定位
-
-3. 匹配流程强依赖 `outputs/manual_confirmed_mappings.csv`
-   - 这里保存了很多人工确认与规则化确认
-   - 误删会直接影响重跑结果
-
-## 建议工作流
-
-如果只是想在当前仓库基础上恢复到“匹配 + 基础方言归并”状态，推荐：
-
+### 7. 只回填 `villages.db` 中的空方言值
 ```bash
-python3 scripts/build_village_mapping.py
-python3 scripts/export_jnu_villages_db.py
-python3 scripts/normalize_jnu_dialects.py
+python3 scripts/rebuild_and_fill_dialect_empty_only.py
 ```
 
-如果想尽量复现历史完整流程，建议顺序：
-
+### 8. 必要时做标准化整理
 ```bash
-python3 scripts/build_village_mapping.py
-# 必要时补跑各类 infer / rule 脚本
-python3 scripts/export_jnu_villages_db.py
-python3 scripts/normalize_jnu_dialects.py
-# 然后继续定位“final_write_value / by_rowid 聚合”的后半段脚本
+python3 scripts/preview_standardize_dialect_values.py
+python3 scripts/apply_standardize_dialect_values.py
 ```
 
 ## 当前仓库状态说明
 
-本 README 反映的是当前仓库中“已经确认存在且可运行”的流程，不对缺失脚本做虚构推断。
-若后续重新找到了“最终写回值聚合阶段”的脚本，应补充到本 README 的第三阶段后半段部分。
+本 README 反映的是当前工作区里“能用代码和文件直接验证”的现状：
+
+- 已确认：匹配脚本、中间库落库脚本、方言清洗/写回脚本
+- 未确认：`step3b` 这个历史步骤名对应的现存脚本
+- 未确认：当前仓库里是否还保留独立的距离计算实现
+
+如果后续从历史聊天记录、git 历史、旧分支或旧脚本中重新找回“step3b 距离计算”的真实入口，应再把它补写进本 README。
