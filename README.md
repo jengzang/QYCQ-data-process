@@ -71,7 +71,61 @@
   - `step3b_relaxed_single_candidate:...`
 - 后续再次运行 `scripts/build_village_mapping.py` 时，这些确认会重新参与正式匹配流程
 
-### 阶段 2：匹配结果落中间库
+### 阶段 1.6：cross-town 自然村补确认（现已脚本化）
+
+目标：
+把已经产出的跨镇自然村直接受候选重新落成可复跑脚本，自动把可接受的自然村确认写回 `outputs/manual_confirmed_mappings.csv`，并导出剩余待复核清单。
+
+主脚本：
+- `scripts/apply_cross_town_natural_confirmations.py`
+
+使用的数据来源：
+- `outputs/cross_town_admin_natural_direct_accept_suggestions.csv`
+- `outputs/cross_town_admin_natural_second_batch_safe_accept.csv`
+- `outputs/cross_town_admin_natural_still_review_needed.csv`
+
+脚本行为：
+1. 把 `cross_town_admin_natural_direct_accept_suggestions.csv` 中已判为可直接接受的记录追加写入 `outputs/manual_confirmed_mappings.csv`
+2. 把 `cross_town_admin_natural_second_batch_safe_accept.csv` 中 `verdict=safe_accept` 的记录追加写入 `outputs/manual_confirmed_mappings.csv`
+3. 不重复追加已经存在的 `(level, parent_scope, source_value)`
+4. 导出剩余待人工复核清单：
+   - `outputs/natural_cross_town_remaining_review_candidates.csv`
+
+写回格式说明：
+- 实际写入目标仍是 `outputs/manual_confirmed_mappings.csv`
+- `level=natural`
+- `parent_scope` 格式为：`市 / 镇 / 行政村`
+- 后续再次运行 `scripts/build_village_mapping.py` 时，这些确认会重新参与正式匹配流程
+
+
+### 阶段 1.7：自然村 second-pass（单候选 + 去尾“村”）补确认
+
+目标：
+对 `natural_village_unresolved.csv` 中已经缩到单候选、且仅差尾部“村”字的自然村记录做第二轮自动确认，批量写回 `outputs/manual_confirmed_mappings.csv`。
+
+主脚本：
+- `scripts/apply_natural_second_pass_drop_trailing_village.py`
+
+使用的数据来源：
+- `outputs/natural_village_unresolved.csv`
+
+脚本行为：
+1. 仅处理同时满足以下条件的自然村：
+   - `candidate_count=1`
+   - `match_status in (ambiguous_row_scope, ambiguous_normalized)`
+   - `xlsx_natural_village` 以 `村` 结尾
+   - 去掉尾部 `村` 后，恰好等于唯一候选值
+2. 把符合条件的记录追加写入 `outputs/manual_confirmed_mappings.csv`
+3. 不重复追加已经存在的 `(level, parent_scope, source_value)`
+4. 导出本轮命中清单：
+   - `outputs/natural_second_pass_drop_trailing_village_review.csv`
+
+写回格式说明：
+- 实际写入目标仍是 `outputs/manual_confirmed_mappings.csv`
+- `level=natural`
+- `parent_scope` 格式为：`市 / 镇 / 行政村`
+- `source_suggestions` 前缀为 `natural_second_pass_drop_trailing_village:`
+
 把 `natural_village_mapping.csv` 的匹配结果写入 `villages_fromJNU.db`。
 
 主脚本：
@@ -111,8 +165,9 @@
 2. `rebuild_and_fill_dialect_empty_only.py`
    - 从 `villages_fromJNU.db` 聚合出 `matched_db_rowid -> final_write_value`
    - 只给 `villages.db` 中 `方言分布` 为空的记录补值
-   - 写回前自动备份
-   - 写回后做对照校验
+   - 写回前自动备份当前 `villages.db`
+   - 以 `villages.db.bak.20260616_040829` 作为“原始基线”对照：区分原本就有值的村庄与后续写回新增的村庄
+   - 写回后校验：原则上不应覆盖原本已有值的村庄；若出现差异，当前已知 17 条仅为多成分排序变化（如 `粤方言、海话` -> `海话、粤方言`），不是新增覆盖成别的内容
 
 3. `apply_standardize_dialect_values.py`
    - 对 `final_write_value_by_rowid` 以及 `villages.db.方言分布` 做标准化整理
@@ -207,7 +262,31 @@ python3 scripts/build_village_mapping.py
 - 若只想看还有哪些 step3b 候选待复核，可查看：
   - `outputs/step3b_remaining_review_candidates.csv`
 
-### 3. 必要时补跑其他规则 / 反推确认
+### 3. 补跑 cross-town 自然村确认脚本
+```bash
+python3 scripts/apply_cross_town_natural_confirmations.py
+python3 scripts/build_village_mapping.py
+```
+
+说明：
+- 第一个命令会把 cross-town 自然村已接受候选落到 `outputs/manual_confirmed_mappings.csv`
+- 第二个命令会基于这些确认重新生成 natural mapping / unresolved 结果
+- 若只想看还有哪些 cross-town 自然村候选待复核，可查看：
+  - `outputs/natural_cross_town_remaining_review_candidates.csv`
+
+### 4. 补跑自然村 second-pass（单候选 + 去尾“村”）确认脚本
+```bash
+python3 scripts/apply_natural_second_pass_drop_trailing_village.py
+python3 scripts/build_village_mapping.py
+```
+
+说明：
+- 第一个命令会把单候选且仅差尾部“村”的自然村确认落到 `outputs/manual_confirmed_mappings.csv`
+- 第二个命令会基于这些确认重新生成 natural mapping / unresolved 结果
+- 若只想看本轮命中清单，可查看：
+  - `outputs/natural_second_pass_drop_trailing_village_review.csv`
+
+### 5. 必要时补跑其他规则 / 反推确认
 ```bash
 python3 scripts/apply_natural_rule_d.py
 python3 scripts/confirm_duplicate_natural_min_rowid.py
@@ -216,27 +295,58 @@ python3 scripts/infer_admin_confirmations.py
 python3 scripts/build_village_mapping.py
 ```
 
-### 4. 把匹配结果写入中间库
+### 6. 把匹配结果写入中间库
 ```bash
 python3 scripts/export_jnu_villages_db.py
 ```
 
-### 5. 重建方言清洗表
+### 7. 重建方言清洗表
 ```bash
 python3 scripts/normalize_jnu_dialects.py
 ```
 
-### 6. 构建最终写回值 / review 产物
+### 8. 构建最终写回值 / review 产物
 ```bash
 python3 scripts/build_dialect_write_values.py
 ```
 
-### 7. 只回填 `villages.db` 中的空方言值
+### 9. 只回填 `villages.db` 中的空方言值
 ```bash
 python3 scripts/rebuild_and_fill_dialect_empty_only.py
 ```
 
-### 8. 必要时做标准化整理
+说明：
+- 这是当前仓库里已经固定下来的正式写回脚本
+- 它会先重跑 `scripts/normalize_jnu_dialects.py`
+- 再根据 `villages_fromJNU.db` 中的 `matched_db_rowid` 聚合写回值
+- 只更新 `villages.db` 中原本为空的 `方言分布`
+- 写回前会备份当前 `villages.db` 到 `backups/`
+- 写回后会拿 `villages.db.bak.20260616_040829` 做基线核对，区分：
+  - 原本就有值的村庄
+  - 后续由本流程补写的村庄
+- 当前实测：本次写回新增填充 2279 条空值；对原本非空值的 17 处差异仅为多成分排序调整，不属于把原值覆盖成别的内容
+
+### 9.5 关于 `villages_with_coordinates.xlsx`
+
+当前仓库可验证结论：
+- 没有找到 `villages_with_coordinates.xlsx`
+- 也没有找到任何现成脚本负责把结果回写到这个 Excel
+- 当前 README、`scripts/`、以及仓库文件里都没有可直接运行的 “回写 villages_with_coordinates.xlsx” 固定入口
+
+因此现在能确认的只有：
+- `villages.db` 的正式写回脚本已存在：`scripts/rebuild_and_fill_dialect_empty_only.py`
+- `villages_with_coordinates.xlsx` 的回写流程目前没有在当前工作区落实成可验证脚本
+
+如果后续要补这条链路，建议按与 `villages.db` 相同的审计思路固定成脚本：
+1. 先定位 `villages_with_coordinates.xlsx` 实际文件路径与目标 sheet/列名
+2. 用 `matched_db_rowid` 或明确的业务主键把 `villages_fromJNU.db` / `villages.db` 的最终值映射回 Excel 行
+3. 写回前复制一份原始 Excel 备份
+4. 严格区分：
+   - 原本已有值的单元格
+   - 原本为空、允许补写的单元格
+5. 写回后输出变更统计与抽样核对产物
+
+### 10. 必要时做标准化整理
 ```bash
 python3 scripts/preview_standardize_dialect_values.py
 python3 scripts/apply_standardize_dialect_values.py
