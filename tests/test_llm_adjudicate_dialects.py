@@ -19,6 +19,7 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
 
         self.assertEqual(module.validate_final_value('粤·四邑话'), [])
         self.assertEqual(module.validate_final_value('客家'), [])
+        self.assertEqual(module.validate_final_value('其他·越南语'), [])
         self.assertEqual(module.validate_final_value('粤·四邑话、客家·涯话'), [])
 
         errors = module.validate_final_value('四邑话')
@@ -72,9 +73,19 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
 
         self.assertIn('必须有方言大类', prompt)
         self.assertIn('大类·小类', prompt)
+        self.assertIn('其他', prompt)
         self.assertIn('SPECIAL RULES', prompt)
         self.assertIn(json.dumps('龙背村', ensure_ascii=False), prompt)
         self.assertIn(json.dumps('粤方言四邑话', ensure_ascii=False), prompt)
+
+    def test_build_prompt_contains_few_shot_examples(self):
+        module = load_module()
+
+        prompt = module.build_user_prompt({'xlsx_row_number': 1}, 'SPECIAL RULES')
+
+        self.assertIn('判定示例', prompt)
+        self.assertIn('粤方言四包话 -> 粤·四邑话', prompt)
+        self.assertIn('越南语（因归侨较多） -> 其他·越南语', prompt)
 
     def test_fetch_records_works_before_final_write_value_column_exists(self):
         module = load_module()

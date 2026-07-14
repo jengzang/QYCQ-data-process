@@ -146,6 +146,12 @@
 - `官话`
 - `湘语`
 
+LLM 辅助判定层允许额外使用：
+
+- `其他`
+
+`其他` 只用于原始方言无法可靠归入上述七类时；使用 `其他` 时仍应尽量给出小类，例如 `其他·越南语`。如果只能判断为泛称方言而没有小类证据，可写作 `其他`，并标记人工复核。
+
 大类识别基于 `FAMILY_RULES` 正则。例如：
 
 | 大类 | 典型触发词 |
@@ -382,4 +388,3 @@ python3 scripts/export_jnu_villages_db.py
 python3 scripts/normalize_jnu_dialects.py
 python3 scripts/build_dialect_write_values.py
 ```
-
