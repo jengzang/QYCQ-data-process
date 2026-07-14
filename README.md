@@ -243,6 +243,12 @@
 - 由 `scripts/normalize_jnu_dialects.py` 重建
 - 保存方言清洗结构化结果
 
+表：`jnu_dialect_llm_adjudication`
+- 由 `scripts/llm_adjudicate_dialects.py` 写入
+- 保存大模型对单行方言归一化结果的判定
+- 默认作为 review / 辅助判定层，不直接写回 `villages.db`
+- 最终值要求格式为：`大类` 或 `大类·小类`；多个成分用 `、` 连接
+
 ## 当前确认的运行顺序
 
 ### 1. 重建匹配 CSV
@@ -305,10 +311,38 @@ python3 scripts/export_jnu_villages_db.py
 python3 scripts/normalize_jnu_dialects.py
 ```
 
+### 7.5 LLM 辅助方言判定（可选）
+```bash
+python3 scripts/llm_adjudicate_dialects.py --dry-run --limit 20
+```
+
+正式调用 DeepSeek 示例：
+```bash
+DEEPSEEK_API_KEY=... python3 scripts/llm_adjudicate_dialects.py --apply --limit 100
+```
+
+说明：
+- 该步骤位于规则清洗之后、最终写回值构建之前
+- 输入包括原始方言、规则清洗结果、村名、地理层级、村历史沿革、民系/迁徙线索、村名来源、建村时间、世居姓氏、居民民族和特殊方言规则
+- 默认只选择 `low`、`medium`、`混合`、OCR 可疑记录进入 LLM 判定；如需全部非空方言行，可加 `--all-rows`
+- 默认不调用 API；未传 `--apply` 时等同 dry-run
+- 默认 provider/model 为 DeepSeek：`deepseek-chat`
+- 默认 API 地址为：`https://api.deepseek.com/v1/chat/completions`
+- 可用环境变量覆盖：`LLM_PROVIDER`、`LLM_MODEL`、`LLM_BASE_URL`
+- API key 默认读取：`DEEPSEEK_API_KEY`
+- 输出写入 `villages_fromJNU.db.jnu_dialect_llm_adjudication`
+- 同时导出 review CSV：`artifacts/dialect_llm_review/llm_adjudication_review.csv`
+- 该步骤不直接覆盖 `villages.db.方言分布`
+- 方言最终值要求必须有大类；小类尽量给出，证据不足可留空；格式为 `大类` 或 `大类·小类`
+
 ### 8. 构建最终写回值 / review 产物
 ```bash
 python3 scripts/build_dialect_write_values.py
 ```
+
+说明：
+- 当前脚本仍以规则清洗结果为主构建写回值
+- 若要让 LLM 判定结果参与最终写回，需要在 review 后再把可接受结果接入 `build_dialect_write_values.py`
 
 ### 9. 只回填 `villages.db` 中的空方言值
 ```bash
