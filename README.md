@@ -312,20 +312,31 @@ python3 scripts/normalize_jnu_dialects.py
 ```
 
 ### 7.5 LLM 辅助方言判定（可选）
+
+1. 在项目根目录创建本地 `.env`，写入 DeepSeek API key：
+```bash
+DEEPSEEK_API_KEY=sk-你的真实key
+```
+
+可选配置：
+```bash
+LLM_MODEL=deepseek-chat
+LLM_BASE_URL=https://api.deepseek.com/v1/chat/completions
+```
+
+如果要使用 DeepSeek reasoner：
+```bash
+LLM_MODEL=deepseek-reasoner
+```
+
+2. 先 dry-run 检查流程，不会请求大模型：
 ```bash
 python3 scripts/llm_adjudicate_dialects.py --dry-run --limit 20
 ```
 
-正式调用 DeepSeek 示例：
+3. 确认 `.env` 配好后正式调用 DeepSeek：
 ```bash
 python3 scripts/llm_adjudicate_dialects.py --apply --limit 100
-```
-
-调用前在项目根目录创建本地 `.env`：
-```bash
-DEEPSEEK_API_KEY=你的_deepseek_key
-LLM_MODEL=deepseek-chat
-LLM_BASE_URL=https://api.deepseek.com/v1/chat/completions
 ```
 
 说明：
@@ -336,7 +347,7 @@ LLM_BASE_URL=https://api.deepseek.com/v1/chat/completions
 - 默认 provider/model 为 DeepSeek：`deepseek-chat`
 - 默认 API 地址为：`https://api.deepseek.com/v1/chat/completions`
 - 脚本会自动读取项目根目录 `.env`
-- `.env` 已加入 `.gitignore`，不要提交 API key
+- `.env` 已加入 `.gitignore`，不要提交 API key；不要把真实 key 写进 README 或代码
 - 可用 `.env` 或系统环境变量覆盖：`LLM_PROVIDER`、`LLM_MODEL`、`LLM_BASE_URL`
 - API key 默认读取：`DEEPSEEK_API_KEY`
 - 输出写入 `villages_fromJNU.db.jnu_dialect_llm_adjudication`
