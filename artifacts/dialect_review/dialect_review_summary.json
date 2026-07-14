@@ -13,26 +13,26 @@
       "少数民族"
     ]
   },
-  "complex_rowid_count": 118,
-  "complex_distinct_value_count": 48,
+  "complex_rowid_count": 69,
+  "complex_distinct_value_count": 26,
   "top_complex_values": [
     {
       "final_write_value_by_rowid": "粤、客家",
-      "rowid_count": 21,
+      "rowid_count": 20,
       "example_rowids": [
         273278,
-        281131,
         280817,
+        281907,
         281845,
+        281576,
         246103,
         175082,
-        175084,
-        171547
+        174828
       ]
     },
     {
       "final_write_value_by_rowid": "客家、粤、客家",
-      "rowid_count": 10,
+      "rowid_count": 8,
       "example_rowids": [
         271277,
         273844,
@@ -40,69 +40,19 @@
         245654,
         178080,
         171731,
-        184996,
-        60187
+        63733,
+        210958
       ]
     },
     {
       "final_write_value_by_rowid": "粤、粤、客家",
-      "rowid_count": 9,
+      "rowid_count": 5,
       "example_rowids": [
         273461,
         273476,
-        265743,
         243868,
         171014,
-        223498,
-        111751,
-        13691
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤、闽·雷州话",
-      "rowid_count": 8,
-      "example_rowids": [
-        259596,
-        257282,
-        257239,
-        257484,
-        254675,
-        259589,
-        260186,
-        262931
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤、客家、粤、客家",
-      "rowid_count": 5,
-      "example_rowids": [
-        265563,
-        188220,
-        13407,
-        14816,
-        19040
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "客家、闽",
-      "rowid_count": 5,
-      "example_rowids": [
-        59644,
-        195324,
-        195332,
-        196055,
-        254419
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "客家、客家、闽",
-      "rowid_count": 5,
-      "example_rowids": [
-        59571,
-        51737,
-        53505,
-        195230,
-        208073
+        223498
       ]
     },
     {
@@ -116,12 +66,30 @@
       ]
     },
     {
-      "final_write_value_by_rowid": "粤、闽",
+      "final_write_value_by_rowid": "粤·阳春白话、粤、客家",
       "rowid_count": 3,
       "example_rowids": [
-        113584,
-        194373,
-        254701
+        225611,
+        225682,
+        228053
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "客家、闽",
+      "rowid_count": 3,
+      "example_rowids": [
+        195324,
+        195332,
+        254419
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤、闽·雷州话",
+      "rowid_count": 3,
+      "example_rowids": [
+        257484,
+        254675,
+        262931
       ]
     },
     {
@@ -133,51 +101,11 @@
       ]
     },
     {
-      "final_write_value_by_rowid": "粤·高要话、客家",
-      "rowid_count": 2,
-      "example_rowids": [
-        271073,
-        270292
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤·高要话、粤、客家",
-      "rowid_count": 2,
-      "example_rowids": [
-        271091,
-        270116
-      ]
-    },
-    {
       "final_write_value_by_rowid": "粤·清远白话、客家",
       "rowid_count": 2,
       "example_rowids": [
         178336,
         173422
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "客家、闽、客家、闽",
-      "rowid_count": 2,
-      "example_rowids": [
-        59545,
-        194454
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "闽、客家、闽",
-      "rowid_count": 2,
-      "example_rowids": [
-        51573,
-        195343
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤、闽·电白黎话",
-      "rowid_count": 2,
-      "example_rowids": [
-        94672,
-        95181
       ]
     },
     {
@@ -197,17 +125,10 @@
       ]
     },
     {
-      "final_write_value_by_rowid": "粤·台山话、粤、客家",
+      "final_write_value_by_rowid": "粤·高要话、粤、客家",
       "rowid_count": 1,
       "example_rowids": [
-        75831
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤·清远白话、客家、粤、客家",
-      "rowid_count": 1,
-      "example_rowids": [
-        176852
+        270116
       ]
     },
     {
@@ -215,13 +136,6 @@
       "rowid_count": 1,
       "example_rowids": [
         178005
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤、客家、少数民族",
-      "rowid_count": 1,
-      "example_rowids": [
-        169609
       ]
     },
     {
@@ -239,13 +153,6 @@
       ]
     },
     {
-      "final_write_value_by_rowid": "客家、少数民族·连山壮话、客家、少数民族、粤、少数民族",
-      "rowid_count": 1,
-      "example_rowids": [
-        167691
-      ]
-    },
-    {
       "final_write_value_by_rowid": "少数民族·连山壮话、客家、少数民族",
       "rowid_count": 1,
       "example_rowids": [
@@ -257,13 +164,6 @@
       "rowid_count": 1,
       "example_rowids": [
         224828
-      ]
-    },
-    {
-      "final_write_value_by_rowid": "粤·阳春白话、客家、粤、客家",
-      "rowid_count": 1,
-      "example_rowids": [
-        228097
       ]
     },
     {
@@ -279,13 +179,62 @@
       "example_rowids": [
         6749
       ]
+    },
+    {
+      "final_write_value_by_rowid": "粤·沙田话、粤、闽",
+      "rowid_count": 1,
+      "example_rowids": [
+        283717
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "闽、客家、闽",
+      "rowid_count": 1,
+      "example_rowids": [
+        51573
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "粤、闽·电白黎话",
+      "rowid_count": 1,
+      "example_rowids": [
+        95098
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "客家、客家、闽",
+      "rowid_count": 1,
+      "example_rowids": [
+        208073
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "客家、少数民族·瑶语、粤、客家",
+      "rowid_count": 1,
+      "example_rowids": [
+        211584
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "闽、粤、闽",
+      "rowid_count": 1,
+      "example_rowids": [
+        250495
+      ]
+    },
+    {
+      "final_write_value_by_rowid": "客家、闽·雷州话",
+      "rowid_count": 1,
+      "example_rowids": [
+        262888
+      ]
     }
   ],
   "top_raw_grouping_suggestions": [
     {
       "dialect_raw": "粤方言四邑话",
       "raw_count": 2103,
-      "matched_rowid_count": 1834,
+      "matched_rowid_count": 1858,
       "suggestion_type": "stable_single_mapping",
       "suggested_final_write_value": "粤·四邑话",
       "suggested_final_count": 2103,
@@ -477,7 +426,7 @@
     {
       "dialect_raw": "四邑话（考方言）",
       "raw_count": 1,
-      "matched_rowid_count": 0,
+      "matched_rowid_count": 1,
       "suggestion_type": "stable_single_mapping",
       "suggested_final_write_value": "粤·四邑话",
       "suggested_final_count": 1,
@@ -573,7 +522,7 @@
     {
       "dialect_raw": "广府民系，使用粤方言",
       "raw_count": 55,
-      "matched_rowid_count": 39,
+      "matched_rowid_count": 38,
       "suggestion_type": "stable_single_mapping",
       "suggested_final_write_value": "粤",
       "suggested_final_count": 55,
@@ -681,7 +630,7 @@
     {
       "dialect_raw": "粤方言",
       "raw_count": 14751,
-      "matched_rowid_count": 11353,
+      "matched_rowid_count": 11755,
       "suggestion_type": "stable_single_mapping",
       "suggested_final_write_value": "粤",
       "suggested_final_count": 14751,
@@ -693,7 +642,7 @@
     {
       "dialect_raw": "客家方言",
       "raw_count": 21906,
-      "matched_rowid_count": 16203,
+      "matched_rowid_count": 16919,
       "suggestion_type": "stable_single_mapping",
       "suggested_final_write_value": "客家",
       "suggested_final_count": 21906,
@@ -777,7 +726,7 @@
     {
       "dialect_raw": "粤方言（广府民系）",
       "raw_count": 1452,
-      "matched_rowid_count": 1155,
+      "matched_rowid_count": 1178,
       "suggestion_type": "stable_single_mapping",
       "suggested_final_write_value": "粤",
       "suggested_final_count": 1452,
@@ -825,7 +774,7 @@
     {
       "dialect_raw": "",
       "raw_count": 933,
-      "matched_rowid_count": 704,
+      "matched_rowid_count": 727,
       "suggestion_type": "no_mapping",
       "suggested_final_write_value": "",
       "suggested_final_count": 0,
@@ -837,7 +786,7 @@
     {
       "dialect_raw": "粤方言、客家方言",
       "raw_count": 123,
-      "matched_rowid_count": 94,
+      "matched_rowid_count": 97,
       "suggestion_type": "stable_single_mapping",
       "suggested_final_write_value": "粤、客家",
       "suggested_final_count": 123,
@@ -861,7 +810,7 @@
     {
       "dialect_raw": "客家方言、粤方言",
       "raw_count": 93,
-      "matched_rowid_count": 77,
+      "matched_rowid_count": 76,
       "suggestion_type": "stable_single_mapping",
       "suggested_final_write_value": "粤、客家",
       "suggested_final_count": 93,

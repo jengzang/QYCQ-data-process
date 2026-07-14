@@ -73,6 +73,10 @@ def load_manual_confirmations(path):
             row_scope_hint = ''
             if 'user_confirm_row_scope:' in source_suggestions:
                 row_scope_hint = source_suggestions.split('user_confirm_row_scope:', 1)[1].split('|', 1)[0].strip()
+            elif 'duplicate_min_rowid:' in source_suggestions:
+                row_scope_hint = source_suggestions.split('duplicate_min_rowid:', 1)[1].split('from', 1)[0].strip()
+                if level == 'natural':
+                    row_scope_hint = f'rowid:{row_scope_hint}'
             if level and source_value and confirmed_value and action != 'reject':
                 confirmations[(level, parent_scope, source_value)] = {
                     'confirmed_value': confirmed_value,
@@ -398,20 +402,29 @@ def main(config_path='mapping_config.json'):
                 elif len(rowids) > 1:
                     row_scope_hint = normalize_text((manual_meta or {}).get('row_scope_hint', ''))
                     if row_scope_hint:
-                        scoped_by_hint = [r for r in matched_rows if normalize_text(r.get('区县级')) == row_scope_hint]
-                        hinted_rowids = sorted({r['rowid'] for r in scoped_by_hint})
-                        if len(hinted_rowids) == 1:
-                            matched_rowid = hinted_rowids[0]
-                        elif len(hinted_rowids) > 1:
-                            signatures = {tuple(str(r.get(field) or '') for field in ['市级', '区县级', '乡镇级', '行政村', '自然村', '拼音', '方言分布', 'longitude', 'latitude', '备注', '暂时不用', '搜索用']) for r in scoped_by_hint}
-                            if len(signatures) == 1:
+                        if row_scope_hint.startswith('rowid:'):
+                            target_rowid = row_scope_hint.split(':', 1)[1].strip()
+                            hinted_rowids = sorted({r['rowid'] for r in matched_rows if str(r['rowid']) == target_rowid})
+                            if len(hinted_rowids) == 1:
                                 matched_rowid = hinted_rowids[0]
                             else:
                                 status, matched = 'ambiguous_row_scope', None
                                 matched_rowid = ''
                         else:
-                            status, matched = 'ambiguous_row_scope', None
-                            matched_rowid = ''
+                            scoped_by_hint = [r for r in matched_rows if normalize_text(r.get('区县级')) == row_scope_hint]
+                            hinted_rowids = sorted({r['rowid'] for r in scoped_by_hint})
+                            if len(hinted_rowids) == 1:
+                                matched_rowid = hinted_rowids[0]
+                            elif len(hinted_rowids) > 1:
+                                signatures = {tuple(str(r.get(field) or '') for field in ['市级', '区县级', '乡镇级', '行政村', '自然村', '拼音', '方言分布', 'longitude', 'latitude', '备注', '暂时不用', '搜索用']) for r in scoped_by_hint}
+                                if len(signatures) == 1:
+                                    matched_rowid = hinted_rowids[0]
+                                else:
+                                    status, matched = 'ambiguous_row_scope', None
+                                    matched_rowid = ''
+                            else:
+                                status, matched = 'ambiguous_row_scope', None
+                                matched_rowid = ''
                     else:
                         signatures = {tuple(str(r.get(field) or '') for field in ['市级', '区县级', '乡镇级', '行政村', '自然村', '拼音', '方言分布', 'longitude', 'latitude', '备注', '暂时不用', '搜索用']) for r in matched_rows}
                         if len(signatures) == 1:

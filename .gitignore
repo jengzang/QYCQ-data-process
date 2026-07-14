@@ -1,20 +1,45 @@
 # macOS / editor noise
 .DS_Store
+.vscode/
+.idea/
 
 # Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.egg-info/
+.eggs/
+dist/
+build/
+*.so
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env*
 
 # Local secrets
 .env
 
-# SQLite runtime files
+# Database files — never commit data
+*.db
 *.db-shm
 *.db-wal
+*.sqlite
 *.sqlite-shm
 *.sqlite-wal
+
+# Excel / spreadsheet data files
+*.xlsx
+*.xls
+*.xlsm
+
+# Local backups
+backups/
+*.bak
+*.bak.*
 
 # Local Hermes scratch
 .hermes/
@@ -23,13 +48,5 @@ __pycache__/
 outputs/
 artifacts/
 
-# Local backups
-*.bak
-*.bak.*
-
-# Optional large local source copies
-# Keep the canonical workbook/db under explicit git control if desired.
-# Uncomment if you want them ignored by default.
-# Village.xlsx
-# villages.db
-# villages_fromJNU.db
+# Jupyter
+.ipynb_checkpoints/

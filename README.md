@@ -380,25 +380,27 @@ python3 scripts/rebuild_and_fill_dialect_empty_only.py
   - 后续由本流程补写的村庄
 - 当前实测：本次写回新增填充 2279 条空值；对原本非空值的 17 处差异仅为多成分排序调整，不属于把原值覆盖成别的内容
 
-### 9.5 关于 `villages_with_coordinates.xlsx`
+### 9.5 回写 `Village_with_coords.xlsx`
+```bash
+python3 scripts/fill_village_with_coords_xlsx.py
+```
 
-当前仓库可验证结论：
-- 没有找到 `villages_with_coordinates.xlsx`
-- 也没有找到任何现成脚本负责把结果回写到这个 Excel
-- 当前 README、`scripts/`、以及仓库文件里都没有可直接运行的 “回写 villages_with_coordinates.xlsx” 固定入口
-
-因此现在能确认的只有：
-- `villages.db` 的正式写回脚本已存在：`scripts/rebuild_and_fill_dialect_empty_only.py`
-- `villages_with_coordinates.xlsx` 的回写流程目前没有在当前工作区落实成可验证脚本
-
-如果后续要补这条链路，建议按与 `villages.db` 相同的审计思路固定成脚本：
-1. 先定位 `villages_with_coordinates.xlsx` 实际文件路径与目标 sheet/列名
-2. 用 `matched_db_rowid` 或明确的业务主键把 `villages_fromJNU.db` / `villages.db` 的最终值映射回 Excel 行
-3. 写回前复制一份原始 Excel 备份
-4. 严格区分：
-   - 原本已有值的单元格
-   - 原本为空、允许补写的单元格
-5. 写回后输出变更统计与抽样核对产物
+说明：
+- 当前已确认原始来源文件为项目根目录下的 `Village.xlsx`
+- 目标输出文件为项目根目录下的 `Village_with_coords.xlsx`
+- 目标 sheet 为 `Village`
+- 当前脚本会先按 `Village.xlsx` 的原始列顺序与内容全量重建整张表
+- 最终格式必须严格对齐 `Village.xlsx`，只在末尾额外追加两列：
+  - `db_longitude`
+  - `db_latitude`
+- 也就是说：前 19 列保持 `Village.xlsx` 原样；不允许擅自改成匹配中间表字段视图
+- 经纬度通过 `villages_fromJNU.db.jnu_villages.xlsx_row_number -> matched_db_rowid -> villages.db.rowid` 映射，从 `villages.db` 的 `longitude` / `latitude` 写入
+- 如果某行没有 `matched_db_rowid`，或目标自然村在 `villages.db` 中没有经纬度，则这两列留空
+- 重建前会先备份当前 `Village_with_coords.xlsx` 到 `backups/`
+- 当前输出表头应与 `Village_with_coords.xlsx.bak.20260629` 一致，共 21 列：
+  - `Village.xlsx` 原 19 列
+  - `db_longitude`
+  - `db_latitude`
 
 ### 10. 必要时做标准化整理
 ```bash
