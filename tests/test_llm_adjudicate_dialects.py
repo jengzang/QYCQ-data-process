@@ -1,6 +1,8 @@
 import importlib.util
 import json
+import os
 import sqlite3
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -118,6 +120,40 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertIn('final_write_value', rows[0])
         self.assertEqual(rows[0]['final_write_value'], '')
+
+    def test_load_dotenv_sets_values_without_overriding_existing_env(self):
+        module = load_module()
+        old_key = os.environ.get('DEEPSEEK_API_KEY')
+        old_model = os.environ.get('LLM_MODEL')
+        os.environ['DEEPSEEK_API_KEY'] = 'already-set'
+        os.environ.pop('LLM_MODEL', None)
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                dotenv_path = Path(tmp) / '.env'
+                dotenv_path.write_text(
+                    '\n'.join([
+                        '# local secrets',
+                        'DEEPSEEK_API_KEY=from-dotenv',
+                        'LLM_MODEL=deepseek-chat',
+                        '',
+                    ]),
+                    encoding='utf-8',
+                )
+
+                loaded = module.load_dotenv(dotenv_path)
+
+                self.assertEqual(loaded, {'LLM_MODEL': 'deepseek-chat'})
+                self.assertEqual(os.environ['DEEPSEEK_API_KEY'], 'already-set')
+                self.assertEqual(os.environ['LLM_MODEL'], 'deepseek-chat')
+        finally:
+            if old_key is None:
+                os.environ.pop('DEEPSEEK_API_KEY', None)
+            else:
+                os.environ['DEEPSEEK_API_KEY'] = old_key
+            if old_model is None:
+                os.environ.pop('LLM_MODEL', None)
+            else:
+                os.environ['LLM_MODEL'] = old_model
 
 
 if __name__ == '__main__':

@@ -318,7 +318,14 @@ python3 scripts/llm_adjudicate_dialects.py --dry-run --limit 20
 
 正式调用 DeepSeek 示例：
 ```bash
-DEEPSEEK_API_KEY=... python3 scripts/llm_adjudicate_dialects.py --apply --limit 100
+python3 scripts/llm_adjudicate_dialects.py --apply --limit 100
+```
+
+调用前在项目根目录创建本地 `.env`：
+```bash
+DEEPSEEK_API_KEY=你的_deepseek_key
+LLM_MODEL=deepseek-chat
+LLM_BASE_URL=https://api.deepseek.com/v1/chat/completions
 ```
 
 说明：
@@ -328,7 +335,9 @@ DEEPSEEK_API_KEY=... python3 scripts/llm_adjudicate_dialects.py --apply --limit 
 - 默认不调用 API；未传 `--apply` 时等同 dry-run
 - 默认 provider/model 为 DeepSeek：`deepseek-chat`
 - 默认 API 地址为：`https://api.deepseek.com/v1/chat/completions`
-- 可用环境变量覆盖：`LLM_PROVIDER`、`LLM_MODEL`、`LLM_BASE_URL`
+- 脚本会自动读取项目根目录 `.env`
+- `.env` 已加入 `.gitignore`，不要提交 API key
+- 可用 `.env` 或系统环境变量覆盖：`LLM_PROVIDER`、`LLM_MODEL`、`LLM_BASE_URL`
 - API key 默认读取：`DEEPSEEK_API_KEY`
 - 输出写入 `villages_fromJNU.db.jnu_dialect_llm_adjudication`
 - 同时导出 review CSV：`artifacts/dialect_llm_review/llm_adjudication_review.csv`

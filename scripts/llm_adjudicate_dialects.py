@@ -16,6 +16,7 @@ RULES_DOC = WORKDIR / 'docs' / 'dialect_rules.md'
 ARTIFACT_DIR = WORKDIR / 'artifacts' / 'dialect_llm_review'
 OUTPUT_CSV = ARTIFACT_DIR / 'llm_adjudication_review.csv'
 TABLE_NAME = 'jnu_dialect_llm_adjudication'
+DOTENV_PATH = WORKDIR / '.env'
 
 DEFAULT_PROVIDER = 'deepseek'
 DEFAULT_MODEL = 'deepseek-chat'
@@ -43,6 +44,27 @@ FEW_SHOT_EXAMPLES = [
 
 def normalize_text(value):
     return str(value or '').strip()
+
+
+def load_dotenv(path=DOTENV_PATH):
+    loaded = {}
+    path = Path(path)
+    if not path.exists():
+        return loaded
+    for raw_line in path.read_text(encoding='utf-8').splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith('#') or '=' not in line:
+            continue
+        key, value = line.split('=', 1)
+        key = key.strip()
+        value = value.strip()
+        if not key or key in os.environ:
+            continue
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
+            value = value[1:-1]
+        os.environ[key] = value
+        loaded[key] = value
+    return loaded
 
 
 def split_components(value):
@@ -417,6 +439,7 @@ def export_review_csv(conn):
 
 
 def parse_args():
+    load_dotenv()
     parser = argparse.ArgumentParser(description='Use an LLM to adjudicate normalized dialect values.')
     parser.add_argument('--limit', type=int, default=20, help='Maximum rows to process. Use 0 for all selected rows.')
     parser.add_argument('--all-rows', action='store_true', help='Process all nonempty dialect rows, not just low/medium/mixed/OCR-suspect rows.')
