@@ -579,17 +579,42 @@ def export_review_csv(conn):
 def export_run_csv(rows, path):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    fieldnames = [
-        'xlsx_row_number', 'matched_db_rowid', 'dialect_raw', 'rule_final_value',
-        'llm_final_value', 'llm_confidence', 'needs_human_review',
-        'validation_errors_json', 'evidence_json', 'warnings_json', 'model', 'dry_run', 'created_at',
-    ]
     with path.open('w', newline='', encoding='utf-8-sig') as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=RUN_CSV_FIELDNAMES)
         writer.writeheader()
         for row in rows:
-            writer.writerow({key: row.get(key, '') for key in fieldnames})
+            writer.writerow({key: row.get(key, '') for key in RUN_CSV_FIELDNAMES})
     return len(rows)
+
+
+RUN_CSV_FIELDNAMES = [
+    'xlsx_row_number', 'matched_db_rowid', 'dialect_raw', 'rule_final_value',
+    'llm_final_value', 'llm_confidence', 'needs_human_review',
+    'validation_errors_json', 'evidence_json', 'warnings_json', 'model', 'dry_run', 'created_at',
+]
+
+
+def append_run_csv(row, path):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    write_header = not path.exists() or path.stat().st_size == 0
+    with path.open('a', newline='', encoding='utf-8-sig') as f:
+        writer = csv.DictWriter(f, fieldnames=RUN_CSV_FIELDNAMES)
+        if write_header:
+            writer.writeheader()
+        writer.writerow({key: row.get(key, '') for key in RUN_CSV_FIELDNAMES})
+
+
+def filter_existing_successful_records(conn, records):
+    if not records:
+        return records
+    create_table(conn)
+    existing = {
+        row[0] for row in conn.execute(
+            f'SELECT xlsx_row_number FROM {TABLE_NAME} WHERE dry_run = 0 AND llm_final_value IS NOT NULL AND trim(llm_final_value) != ""'
+        )
+    }
+    return [record for record in records if record.get('xlsx_row_number') not in existing]
 
 
 def parse_args():
@@ -607,6 +632,8 @@ def parse_args():
     parser.add_argument('--api-key-env', default=os.environ.get('LLM_API_KEY_ENV', 'LLM_API_KEY'))
     parser.add_argument('--sleep', type=float, default=0.0, help='Seconds to sleep between API calls.')
     parser.add_argument('--timeout', type=float, default=60.0)
+    parser.add_argument('--skip-existing', action='store_true', help='Skip rows that already have a non-dry-run LLM result.')
+    parser.add_argument('--progress-every', type=int, default=10, help='Print progress every N processed rows. Use 0 to disable.')
     return parser.parse_args()
 
 
@@ -625,6 +652,9 @@ def main():
     conn = sqlite3.connect(STAGING_DB)
     create_table(conn)
     records = select_records(conn, limit=limit, all_rows=args.all_rows, priority_candidates=args.priority_candidates)
+    selected_before_skip = len(records)
+    if args.skip_existing:
+        records = filter_existing_successful_records(conn, records)
     processed = 0
     failures = []
     run_rows = []
@@ -665,7 +695,7 @@ def main():
                 'request_payload': request_payload,
             })
             processed += 1
-            run_rows.append({
+            run_row = {
                 'xlsx_row_number': record['xlsx_row_number'],
                 'matched_db_rowid': record.get('matched_db_rowid'),
                 'dialect_raw': record.get('dialect_raw'),
@@ -679,7 +709,18 @@ def main():
                 'model': args.model,
                 'dry_run': 1 if dry_run else 0,
                 'created_at': datetime.now().isoformat(timespec='seconds'),
-            })
+            }
+            run_rows.append(run_row)
+            append_run_csv(run_row, run_csv)
+            conn.commit()
+            if args.progress_every and processed % args.progress_every == 0:
+                print(json.dumps({
+                    'progress': processed,
+                    'selected': len(records),
+                    'failures': len(failures),
+                    'total_tokens': token_usage['total_tokens'],
+                    'run_csv': str(run_csv.relative_to(WORKDIR)),
+                }, ensure_ascii=False), flush=True)
         except Exception as exc:
             failures.append({'xlsx_row_number': record.get('xlsx_row_number'), 'error': str(exc)})
         if args.sleep:
@@ -687,11 +728,12 @@ def main():
 
     conn.commit()
     exported = export_review_csv(conn)
-    exported_run_rows = export_run_csv(run_rows, run_csv)
+    exported_run_rows = len(run_rows)
     conn.close()
     print(json.dumps({
         'processed': processed,
         'selected': len(records),
+        'selected_before_skip': selected_before_skip,
         'failures': failures,
         'dry_run': dry_run,
         'wire_api': wire_api,

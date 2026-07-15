@@ -351,6 +351,54 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
             self.assertIn('xlsx_row_number', content)
             self.assertIn('其他', content)
 
+    def test_append_run_csv_writes_header_once(self):
+        module = load_module()
+        row = {
+            'xlsx_row_number': 1,
+            'matched_db_rowid': 10,
+            'dialect_raw': '方言',
+            'rule_final_value': '',
+            'llm_final_value': '其他',
+            'llm_confidence': 'low',
+            'needs_human_review': 1,
+            'validation_errors_json': '[]',
+            'evidence_json': '[]',
+            'warnings_json': '[]',
+            'model': 'test-model',
+            'dry_run': 0,
+            'created_at': '2026-07-15T18:00:00',
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'run.csv'
+
+            module.append_run_csv(row, path)
+            module.append_run_csv(dict(row, xlsx_row_number=2), path)
+
+            lines = path.read_text(encoding='utf-8-sig').splitlines()
+            self.assertEqual(lines[0].count('xlsx_row_number'), 1)
+            self.assertEqual(len(lines), 3)
+
+    def test_filter_existing_successful_records_skips_real_rows(self):
+        module = load_module()
+        conn = sqlite3.connect(':memory:')
+        module.create_table(conn)
+        conn.execute(f'''
+            INSERT INTO {module.TABLE_NAME} (
+                xlsx_row_number, matched_db_rowid, dialect_raw, rule_final_value,
+                llm_final_value, llm_family, llm_subgroups_json, llm_confidence,
+                needs_human_review, evidence_json, applied_rules_json, warnings_json,
+                validation_errors_json, prompt_version, model, provider, dry_run,
+                raw_response_json, request_payload_json, created_at
+            ) VALUES (1, 10, '方言', '', '其他', '其他', '[]', 'low', 1,
+                '[]', '[]', '[]', '[]', 'test', 'model', 'provider', 0, '{{}}', '{{}}', '2026-07-15T18:00:00')
+        ''')
+        records = [{'xlsx_row_number': 1}, {'xlsx_row_number': 2}]
+
+        remaining = module.filter_existing_successful_records(conn, records)
+        conn.close()
+
+        self.assertEqual(remaining, [{'xlsx_row_number': 2}])
+
     def test_resolve_api_key_falls_back_to_deepseek_key(self):
         module = load_module()
         old_llm = os.environ.get('LLM_API_KEY')
