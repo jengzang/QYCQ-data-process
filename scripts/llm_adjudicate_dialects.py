@@ -336,13 +336,15 @@ def filter_priority_records(rows):
     return [row for row in rows if needs_priority_llm_review(row)]
 
 
-def select_records(conn, limit, all_rows=False, priority_candidates=False):
-    fetch_limit = None if priority_candidates else limit
+def select_records(conn, limit, all_rows=False, priority_candidates=False, skip_existing=False):
+    fetch_limit = None if priority_candidates or skip_existing else limit
     records = fetch_records(conn, limit=fetch_limit, only_review_candidates=not all_rows)
     if priority_candidates:
         records = filter_priority_records(records)
-        if limit is not None:
-            records = records[:limit]
+    if skip_existing:
+        records = filter_existing_successful_records(conn, records)
+    if limit is not None:
+        records = records[:limit]
     return records
 
 
@@ -651,10 +653,14 @@ def main():
 
     conn = sqlite3.connect(STAGING_DB)
     create_table(conn)
-    records = select_records(conn, limit=limit, all_rows=args.all_rows, priority_candidates=args.priority_candidates)
-    selected_before_skip = len(records)
-    if args.skip_existing:
-        records = filter_existing_successful_records(conn, records)
+    selected_before_skip = len(select_records(conn, limit=None, all_rows=args.all_rows, priority_candidates=args.priority_candidates))
+    records = select_records(
+        conn,
+        limit=limit,
+        all_rows=args.all_rows,
+        priority_candidates=args.priority_candidates,
+        skip_existing=args.skip_existing,
+    )
     processed = 0
     failures = []
     run_rows = []

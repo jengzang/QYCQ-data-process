@@ -399,6 +399,52 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
 
         self.assertEqual(remaining, [{'xlsx_row_number': 2}])
 
+    def test_select_records_can_limit_after_skip_existing(self):
+        module = load_module()
+        conn = sqlite3.connect(':memory:')
+        conn.executescript('''
+            CREATE TABLE jnu_villages (
+                xlsx_row_number INTEGER PRIMARY KEY,
+                xlsx_city TEXT,
+                xlsx_town TEXT,
+                xlsx_admin_village TEXT,
+                xlsx_natural_village TEXT,
+                dialect_raw TEXT,
+                match_status TEXT,
+                matched_db_rowid INTEGER
+            );
+            CREATE TABLE jnu_dialect_clean (
+                xlsx_row_number INTEGER PRIMARY KEY,
+                primary_family TEXT,
+                primary_subgroup TEXT,
+                mixed_family_text TEXT,
+                mixed_subgroup_text TEXT,
+                clean_confidence TEXT
+            );
+            INSERT INTO jnu_villages VALUES (1, '', '', '', '', '方言', '', 1);
+            INSERT INTO jnu_villages VALUES (2, '', '', '', '', '通用方言', '', 2);
+            INSERT INTO jnu_villages VALUES (3, '', '', '', '', '使用方言', '', 3);
+            INSERT INTO jnu_dialect_clean VALUES (1, '', '', '', '', 'low');
+            INSERT INTO jnu_dialect_clean VALUES (2, '', '', '', '', 'low');
+            INSERT INTO jnu_dialect_clean VALUES (3, '', '', '', '', 'low');
+        ''')
+        module.create_table(conn)
+        conn.execute(f'''
+            INSERT INTO {module.TABLE_NAME} (
+                xlsx_row_number, matched_db_rowid, dialect_raw, rule_final_value,
+                llm_final_value, llm_family, llm_subgroups_json, llm_confidence,
+                needs_human_review, evidence_json, applied_rules_json, warnings_json,
+                validation_errors_json, prompt_version, model, provider, dry_run,
+                raw_response_json, request_payload_json, created_at
+            ) VALUES (1, 1, '方言', '', '其他', '其他', '[]', 'low', 1,
+                '[]', '[]', '[]', '[]', 'test', 'model', 'provider', 0, '{{}}', '{{}}', '2026-07-15T18:00:00')
+        ''')
+
+        rows = module.select_records(conn, limit=1, all_rows=False, priority_candidates=True, skip_existing=True)
+        conn.close()
+
+        self.assertEqual([row['xlsx_row_number'] for row in rows], [2])
+
     def test_resolve_api_key_falls_back_to_deepseek_key(self):
         module = load_module()
         old_llm = os.environ.get('LLM_API_KEY')
