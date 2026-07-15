@@ -116,6 +116,7 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
         ''')
 
         rows = module.fetch_records(conn, limit=1, only_review_candidates=True)
+        conn.close()
 
         self.assertEqual(len(rows), 1)
         self.assertIn('final_write_value', rows[0])
@@ -154,6 +155,80 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
                 os.environ.pop('LLM_MODEL', None)
             else:
                 os.environ['LLM_MODEL'] = old_model
+
+    def test_build_chat_completions_request_uses_endpoint_and_messages(self):
+        module = load_module()
+        messages = [{'role': 'user', 'content': 'hello'}]
+
+        url, body = module.build_llm_request(
+            messages=messages,
+            model='deepseek-chat',
+            base_url='https://api.deepseek.com/v1/chat/completions',
+            wire_api='chat_completions',
+        )
+
+        self.assertEqual(url, 'https://api.deepseek.com/v1/chat/completions')
+        self.assertEqual(body['model'], 'deepseek-chat')
+        self.assertEqual(body['messages'], messages)
+        self.assertEqual(body['response_format'], {'type': 'json_object'})
+
+    def test_build_responses_request_uses_base_url_and_input(self):
+        module = load_module()
+        messages = [
+            {'role': 'system', 'content': 'system rules'},
+            {'role': 'user', 'content': 'user prompt'},
+        ]
+
+        url, body = module.build_llm_request(
+            messages=messages,
+            model='codex-model',
+            base_url='http://127.0.0.1:8080/v1',
+            wire_api='responses',
+        )
+
+        self.assertEqual(url, 'http://127.0.0.1:8080/v1/responses')
+        self.assertEqual(body['model'], 'codex-model')
+        self.assertEqual(body['input'], messages)
+        self.assertEqual(body['text']['format']['type'], 'json_object')
+
+    def test_extract_response_content_supports_responses_output_text(self):
+        module = load_module()
+        payload = {
+            'output': [
+                {
+                    'content': [
+                        {
+                            'type': 'output_text',
+                            'text': '{"final_value":"其他","confidence":"low"}',
+                        }
+                    ]
+                }
+            ]
+        }
+
+        content = module.extract_response_content(payload, 'responses')
+
+        self.assertEqual(content, '{"final_value":"其他","confidence":"low"}')
+
+    def test_resolve_api_key_falls_back_to_deepseek_key(self):
+        module = load_module()
+        old_llm = os.environ.get('LLM_API_KEY')
+        old_deepseek = os.environ.get('DEEPSEEK_API_KEY')
+        os.environ.pop('LLM_API_KEY', None)
+        os.environ['DEEPSEEK_API_KEY'] = 'deepseek-key'
+        try:
+            key = module.resolve_api_key('LLM_API_KEY')
+
+            self.assertEqual(key, ('deepseek-key', 'DEEPSEEK_API_KEY'))
+        finally:
+            if old_llm is None:
+                os.environ.pop('LLM_API_KEY', None)
+            else:
+                os.environ['LLM_API_KEY'] = old_llm
+            if old_deepseek is None:
+                os.environ.pop('DEEPSEEK_API_KEY', None)
+            else:
+                os.environ['DEEPSEEK_API_KEY'] = old_deepseek
 
 
 if __name__ == '__main__':

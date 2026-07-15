@@ -21,6 +21,7 @@ DOTENV_PATH = WORKDIR / '.env'
 DEFAULT_PROVIDER = 'deepseek'
 DEFAULT_MODEL = 'deepseek-chat'
 DEFAULT_BASE_URL = 'https://api.deepseek.com/v1/chat/completions'
+DEFAULT_WIRE_API = 'chat_completions'
 PROMPT_VERSION = 'dialect_llm_v1'
 KNOWN_FAMILIES = {'粤', '客家', '闽', '土话', '官话', '湘语', '少数民族', '其他'}
 OCR_SUSPECT_TOKENS = [
@@ -298,16 +299,76 @@ def merge_context(record, xlsx_context):
     return merged
 
 
-def call_chat_completion(messages, provider, model, base_url, api_key, timeout):
-    request_body = {
-        'model': model,
-        'messages': messages,
-        'temperature': 0,
-        'response_format': {'type': 'json_object'},
+def normalize_wire_api(wire_api):
+    value = normalize_text(wire_api).lower().replace('-', '_')
+    aliases = {
+        'chat': 'chat_completions',
+        'chat_completion': 'chat_completions',
+        'chat_completions': 'chat_completions',
+        'responses': 'responses',
+        'response': 'responses',
     }
+    if value not in aliases:
+        raise ValueError(f'Unsupported LLM_WIRE_API: {wire_api}')
+    return aliases[value]
+
+
+def responses_endpoint(base_url):
+    base = normalize_text(base_url).rstrip('/')
+    if base.endswith('/responses'):
+        return base
+    return f'{base}/responses'
+
+
+def build_llm_request(messages, model, base_url, wire_api):
+    wire_api = normalize_wire_api(wire_api)
+    if wire_api == 'chat_completions':
+        return base_url, {
+            'model': model,
+            'messages': messages,
+            'temperature': 0,
+            'response_format': {'type': 'json_object'},
+        }
+    return responses_endpoint(base_url), {
+        'model': model,
+        'input': messages,
+        'temperature': 0,
+        'text': {'format': {'type': 'json_object'}},
+    }
+
+
+def extract_response_content(parsed, wire_api):
+    wire_api = normalize_wire_api(wire_api)
+    if wire_api == 'chat_completions':
+        return parsed['choices'][0]['message']['content']
+    if parsed.get('output_text'):
+        return parsed['output_text']
+    chunks = []
+    for item in parsed.get('output', []):
+        for content in item.get('content', []):
+            if content.get('type') in {'output_text', 'text'} and content.get('text') is not None:
+                chunks.append(content['text'])
+    if chunks:
+        return ''.join(chunks)
+    raise KeyError('No text content found in responses API payload')
+
+
+def resolve_api_key(primary_env):
+    key = os.environ.get(primary_env)
+    if key:
+        return key, primary_env
+    if primary_env != 'DEEPSEEK_API_KEY':
+        fallback = os.environ.get('DEEPSEEK_API_KEY')
+        if fallback:
+            return fallback, 'DEEPSEEK_API_KEY'
+    return None, primary_env
+
+
+def call_llm(messages, provider, model, base_url, api_key, timeout, wire_api):
+    request_url, request_body = build_llm_request(messages, model, base_url, wire_api)
     data = json.dumps(request_body, ensure_ascii=False).encode('utf-8')
     req = urllib.request.Request(
-        base_url,
+        request_url,
         data=data,
         headers={
             'Content-Type': 'application/json',
@@ -322,7 +383,7 @@ def call_chat_completion(messages, provider, model, base_url, api_key, timeout):
         error_body = exc.read().decode('utf-8', errors='replace')
         raise RuntimeError(f'{provider} API HTTP {exc.code}: {error_body}') from exc
     parsed = json.loads(body)
-    content = parsed['choices'][0]['message']['content']
+    content = extract_response_content(parsed, wire_api)
     return parsed, content, request_body
 
 
@@ -448,7 +509,8 @@ def parse_args():
     parser.add_argument('--provider', default=os.environ.get('LLM_PROVIDER', DEFAULT_PROVIDER))
     parser.add_argument('--model', default=os.environ.get('LLM_MODEL', DEFAULT_MODEL))
     parser.add_argument('--base-url', default=os.environ.get('LLM_BASE_URL', DEFAULT_BASE_URL))
-    parser.add_argument('--api-key-env', default='DEEPSEEK_API_KEY')
+    parser.add_argument('--wire-api', default=os.environ.get('LLM_WIRE_API', DEFAULT_WIRE_API), choices=['chat_completions', 'chat-completions', 'chat', 'responses'])
+    parser.add_argument('--api-key-env', default=os.environ.get('LLM_API_KEY_ENV', 'LLM_API_KEY'))
     parser.add_argument('--sleep', type=float, default=0.0, help='Seconds to sleep between API calls.')
     parser.add_argument('--timeout', type=float, default=60.0)
     return parser.parse_args()
@@ -458,7 +520,8 @@ def main():
     args = parse_args()
     dry_run = args.dry_run or not args.apply
     limit = None if args.limit == 0 else args.limit
-    api_key = os.environ.get(args.api_key_env)
+    wire_api = normalize_wire_api(args.wire_api)
+    api_key, resolved_key_env = resolve_api_key(args.api_key_env)
     if not dry_run and not api_key:
         raise RuntimeError(f'Missing API key env var: {args.api_key_env}')
 
@@ -484,8 +547,8 @@ def main():
             if dry_run:
                 llm_result = dry_run_response(record)
             else:
-                raw_response, content, request_payload = call_chat_completion(
-                    messages, args.provider, args.model, args.base_url, api_key, args.timeout
+                raw_response, content, request_payload = call_llm(
+                    messages, args.provider, args.model, args.base_url, api_key, args.timeout, wire_api
                 )
                 llm_result = parse_llm_json(content)
             result = normalize_result(llm_result)
@@ -514,6 +577,8 @@ def main():
         'selected': len(records),
         'failures': failures,
         'dry_run': dry_run,
+        'wire_api': wire_api,
+        'api_key_env': resolved_key_env,
         'table': TABLE_NAME,
         'review_csv': str(OUTPUT_CSV.relative_to(WORKDIR)),
         'exported_review_rows': exported,
