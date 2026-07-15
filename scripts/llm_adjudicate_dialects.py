@@ -14,6 +14,7 @@ WORKDIR = Path(__file__).resolve().parents[1]
 STAGING_DB = WORKDIR / 'villages_fromJNU.db'
 RULES_DOC = WORKDIR / 'docs' / 'dialect_rules.md'
 ARTIFACT_DIR = WORKDIR / 'artifacts' / 'dialect_llm_review'
+RUN_ARTIFACT_DIR = ARTIFACT_DIR / 'runs'
 OUTPUT_CSV = ARTIFACT_DIR / 'llm_adjudication_review.csv'
 TABLE_NAME = 'jnu_dialect_llm_adjudication'
 DOTENV_PATH = WORKDIR / '.env'
@@ -29,6 +30,19 @@ OCR_SUSPECT_TOKENS = [
     '考方言', '毒方言', '邮方言', '闫方言', '闻方言', '闽万言', '霉方言',
     '四巨话', '四色话', '四包话',
 ]
+CLEAR_SUBGROUPS = {
+    '四邑话', '台山话', '雷州话', '潮汕话', '电白海话', '电白黎话',
+    '高要话', '怀集上坊话', '怀集诗洞标话', '怀集下坊话', '怀集永固标话',
+    '阳春白话', '恩平话', '封川话', '开建话', '广宁话', '清远白话',
+    '吴川话', '化州白话', '化州话', '袂花话', '始兴话', '涯话',
+    '瑶语', '连山壮话', '蓝田话', '福佬话', '虱婆声', '星子话',
+}
+CLEAR_FAMILY_ONLY = {'粤', '客家', '闽', '少数民族', '土话', '官话'}
+MIXED_COMPLEX_TERMS = [
+    '先辈', '现', '承传', '兼用', '部分', '多数', '少数', '汉族', '壮族',
+    '瑶族', '归侨', '互通', '和', '及', '但', '姓', '家族', '内部',
+]
+OCR_ALREADY_FIXED_TOKENS = ['方盲', '四色话', '四包话', '四巨话']
 
 FEW_SHOT_EXAMPLES = [
     ('粤方言四邑话', '粤·四邑话', '原文已明确大类和小类'),
@@ -115,6 +129,41 @@ def needs_llm_review(row):
     if primary_family == '混合':
         return True
     return any(token in dialect_raw for token in OCR_SUSPECT_TOKENS)
+
+
+def is_clear_family_only(raw, family):
+    if family not in CLEAR_FAMILY_ONLY:
+        return False
+    return (
+        f'{family}方言' in raw
+        or f'{family}话' in raw
+        or (family == '粤' and '粤语' in raw)
+        or (family == '客家' and '客家话' in raw)
+        or (family == '闽' and '闽方言' in raw)
+    )
+
+
+def needs_priority_llm_review(row):
+    confidence = normalize_text(row.get('clean_confidence'))
+    family = normalize_text(row.get('primary_family'))
+    subgroup = normalize_text(row.get('primary_subgroup'))
+    raw = normalize_text(row.get('dialect_raw'))
+    final_value = normalize_text(row.get('final_write_value')) or render_rule_summary(row)
+    if confidence == 'low' or not family or not final_value:
+        return True
+    if family == '混合':
+        if any(term in raw for term in MIXED_COMPLEX_TERMS):
+            return True
+        mixed_subgroup = normalize_text(row.get('mixed_subgroup_text'))
+        return bool(mixed_subgroup)
+    if any(token in raw for token in OCR_SUSPECT_TOKENS) and not any(token in raw for token in OCR_ALREADY_FIXED_TOKENS):
+        return True
+    if confidence == 'medium' and family in CLEAR_FAMILY_ONLY:
+        if subgroup in CLEAR_SUBGROUPS:
+            return False
+        if not subgroup and final_value == family and is_clear_family_only(raw, family):
+            return False
+    return confidence == 'medium'
 
 
 def render_rule_summary(row):
@@ -281,6 +330,20 @@ def fetch_records(conn, limit, only_review_candidates=True):
     if limit is not None:
         rows = rows[:limit]
     return rows
+
+
+def filter_priority_records(rows):
+    return [row for row in rows if needs_priority_llm_review(row)]
+
+
+def select_records(conn, limit, all_rows=False, priority_candidates=False):
+    fetch_limit = None if priority_candidates else limit
+    records = fetch_records(conn, limit=fetch_limit, only_review_candidates=not all_rows)
+    if priority_candidates:
+        records = filter_priority_records(records)
+        if limit is not None:
+            records = records[:limit]
+    return records
 
 
 def load_xlsx_context_by_row():
@@ -513,11 +576,28 @@ def export_review_csv(conn):
     return len(rows)
 
 
+def export_run_csv(rows, path):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fieldnames = [
+        'xlsx_row_number', 'matched_db_rowid', 'dialect_raw', 'rule_final_value',
+        'llm_final_value', 'llm_confidence', 'needs_human_review',
+        'validation_errors_json', 'evidence_json', 'warnings_json', 'model', 'dry_run', 'created_at',
+    ]
+    with path.open('w', newline='', encoding='utf-8-sig') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({key: row.get(key, '') for key in fieldnames})
+    return len(rows)
+
+
 def parse_args():
     load_dotenv()
     parser = argparse.ArgumentParser(description='Use an LLM to adjudicate normalized dialect values.')
     parser.add_argument('--limit', type=int, default=20, help='Maximum rows to process. Use 0 for all selected rows.')
     parser.add_argument('--all-rows', action='store_true', help='Process all nonempty dialect rows, not just low/medium/mixed/OCR-suspect rows.')
+    parser.add_argument('--priority-candidates', action='store_true', help='Process only high-priority ambiguous rows from the review candidate set.')
     parser.add_argument('--dry-run', action='store_true', help='Do not call the API; reuse rule baseline and write review rows.')
     parser.add_argument('--apply', action='store_true', help='Actually call the configured LLM API.')
     parser.add_argument('--provider', default=os.environ.get('LLM_PROVIDER', DEFAULT_PROVIDER))
@@ -544,9 +624,12 @@ def main():
 
     conn = sqlite3.connect(STAGING_DB)
     create_table(conn)
-    records = fetch_records(conn, limit=limit, only_review_candidates=not args.all_rows)
+    records = select_records(conn, limit=limit, all_rows=args.all_rows, priority_candidates=args.priority_candidates)
     processed = 0
     failures = []
+    run_rows = []
+    run_started_at = datetime.now().strftime('%Y%m%d_%H%M%S')
+    run_csv = RUN_ARTIFACT_DIR / f'llm_adjudication_run_{run_started_at}.csv'
     token_usage = {'input_tokens': 0, 'output_tokens': 0, 'total_tokens': 0}
 
     for base_record in records:
@@ -582,6 +665,21 @@ def main():
                 'request_payload': request_payload,
             })
             processed += 1
+            run_rows.append({
+                'xlsx_row_number': record['xlsx_row_number'],
+                'matched_db_rowid': record.get('matched_db_rowid'),
+                'dialect_raw': record.get('dialect_raw'),
+                'rule_final_value': record.get('final_write_value') or render_rule_summary(record),
+                'llm_final_value': result['final_value'],
+                'llm_confidence': result['confidence'],
+                'needs_human_review': 1 if result['needs_human_review'] or validation_errors else 0,
+                'validation_errors_json': json.dumps(validation_errors, ensure_ascii=False),
+                'evidence_json': json.dumps(result['evidence'], ensure_ascii=False),
+                'warnings_json': json.dumps(result['warnings'], ensure_ascii=False),
+                'model': args.model,
+                'dry_run': 1 if dry_run else 0,
+                'created_at': datetime.now().isoformat(timespec='seconds'),
+            })
         except Exception as exc:
             failures.append({'xlsx_row_number': record.get('xlsx_row_number'), 'error': str(exc)})
         if args.sleep:
@@ -589,6 +687,7 @@ def main():
 
     conn.commit()
     exported = export_review_csv(conn)
+    exported_run_rows = export_run_csv(run_rows, run_csv)
     conn.close()
     print(json.dumps({
         'processed': processed,
@@ -602,6 +701,8 @@ def main():
         'table': TABLE_NAME,
         'review_csv': str(OUTPUT_CSV.relative_to(WORKDIR)),
         'exported_review_rows': exported,
+        'run_csv': str(run_csv.relative_to(WORKDIR)),
+        'exported_run_rows': exported_run_rows,
     }, ensure_ascii=False, indent=2))
 
 

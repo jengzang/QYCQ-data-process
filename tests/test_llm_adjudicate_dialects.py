@@ -54,6 +54,55 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
         self.assertTrue(module.needs_llm_review({'clean_confidence': 'high', 'primary_family': '粤', 'dialect_raw': '粤方盲'}))
         self.assertFalse(module.needs_llm_review({'clean_confidence': 'high', 'primary_family': '粤', 'dialect_raw': '粤方言四邑话'}))
 
+    def test_needs_priority_llm_review_skips_clear_medium_rows(self):
+        module = load_module()
+
+        self.assertFalse(module.needs_priority_llm_review({
+            'clean_confidence': 'medium',
+            'primary_family': '粤',
+            'primary_subgroup': '',
+            'dialect_raw': '粤方言（广府民系）',
+        }))
+        self.assertFalse(module.needs_priority_llm_review({
+            'clean_confidence': 'medium',
+            'primary_family': '闽',
+            'primary_subgroup': '雷州话',
+            'dialect_raw': '通用雷州话',
+        }))
+
+    def test_needs_priority_llm_review_keeps_low_unclear_and_complex_mixed_rows(self):
+        module = load_module()
+
+        self.assertTrue(module.needs_priority_llm_review({
+            'clean_confidence': 'low',
+            'primary_family': '',
+            'dialect_raw': '通用方言',
+        }))
+        self.assertTrue(module.needs_priority_llm_review({
+            'clean_confidence': 'medium',
+            'primary_family': '混合',
+            'mixed_family_text': '客家、粤',
+            'dialect_raw': '先辈使用客家方言，现村民使用粤方言',
+        }))
+
+    def test_needs_priority_llm_review_keeps_mixed_rows_that_lost_subgroups(self):
+        module = load_module()
+
+        self.assertTrue(module.needs_priority_llm_review({
+            'clean_confidence': 'medium',
+            'primary_family': '混合',
+            'mixed_family_text': '客家、粤',
+            'mixed_subgroup_text': '涯话、阳春白话',
+            'dialect_raw': '客家方言阳春涯话、粤方言阳春白话',
+        }))
+        self.assertFalse(module.needs_priority_llm_review({
+            'clean_confidence': 'medium',
+            'primary_family': '混合',
+            'mixed_family_text': '粤、客家',
+            'mixed_subgroup_text': '',
+            'dialect_raw': '粤方言、客家方言',
+        }))
+
     def test_build_prompt_contains_rule_contract_and_context(self):
         module = load_module()
         record = {
@@ -121,6 +170,41 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertIn('final_write_value', rows[0])
         self.assertEqual(rows[0]['final_write_value'], '')
+
+    def test_select_records_applies_limit_after_priority_filter(self):
+        module = load_module()
+        conn = sqlite3.connect(':memory:')
+        conn.executescript('''
+            CREATE TABLE jnu_villages (
+                xlsx_row_number INTEGER PRIMARY KEY,
+                xlsx_city TEXT,
+                xlsx_town TEXT,
+                xlsx_admin_village TEXT,
+                xlsx_natural_village TEXT,
+                dialect_raw TEXT,
+                match_status TEXT,
+                matched_db_rowid INTEGER
+            );
+            CREATE TABLE jnu_dialect_clean (
+                xlsx_row_number INTEGER PRIMARY KEY,
+                primary_family TEXT,
+                primary_subgroup TEXT,
+                mixed_family_text TEXT,
+                mixed_subgroup_text TEXT,
+                clean_confidence TEXT
+            );
+            INSERT INTO jnu_villages VALUES (1, '', '', '', '', '粤方言（广府民系）', '', 1);
+            INSERT INTO jnu_villages VALUES (2, '', '', '', '', '方言', '', 2);
+            INSERT INTO jnu_villages VALUES (3, '', '', '', '', '通用方言', '', 3);
+            INSERT INTO jnu_dialect_clean VALUES (1, '粤', '', '', '', 'medium');
+            INSERT INTO jnu_dialect_clean VALUES (2, '', '', '', '', 'low');
+            INSERT INTO jnu_dialect_clean VALUES (3, '', '', '', '', 'low');
+        ''')
+
+        rows = module.select_records(conn, limit=1, all_rows=False, priority_candidates=True)
+        conn.close()
+
+        self.assertEqual([row['xlsx_row_number'] for row in rows], [2])
 
     def test_load_dotenv_sets_values_without_overriding_existing_env(self):
         module = load_module()
@@ -237,6 +321,35 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
         usage = module.extract_token_usage(payload)
 
         self.assertEqual(usage, {'input_tokens': 100, 'output_tokens': 20, 'total_tokens': 120})
+
+    def test_export_run_csv_writes_only_processed_rows(self):
+        module = load_module()
+        rows = [
+            {
+                'xlsx_row_number': 1,
+                'matched_db_rowid': 10,
+                'dialect_raw': '方言',
+                'rule_final_value': '',
+                'llm_final_value': '其他',
+                'llm_confidence': 'low',
+                'needs_human_review': 1,
+                'validation_errors_json': '[]',
+                'evidence_json': '["泛称"]',
+                'warnings_json': '[]',
+                'model': 'test-model',
+                'dry_run': 0,
+                'created_at': '2026-07-15T18:00:00',
+            }
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'run.csv'
+
+            written = module.export_run_csv(rows, path)
+
+            self.assertEqual(written, 1)
+            content = path.read_text(encoding='utf-8-sig')
+            self.assertIn('xlsx_row_number', content)
+            self.assertIn('其他', content)
 
     def test_resolve_api_key_falls_back_to_deepseek_key(self):
         module = load_module()
