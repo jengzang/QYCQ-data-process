@@ -210,6 +210,34 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
 
         self.assertEqual(content, '{"final_value":"其他","confidence":"low"}')
 
+    def test_extract_token_usage_supports_responses_usage(self):
+        module = load_module()
+        payload = {
+            'usage': {
+                'input_tokens': 4019,
+                'output_tokens': 297,
+                'total_tokens': 4316,
+            }
+        }
+
+        usage = module.extract_token_usage(payload)
+
+        self.assertEqual(usage, {'input_tokens': 4019, 'output_tokens': 297, 'total_tokens': 4316})
+
+    def test_extract_token_usage_supports_chat_completions_usage(self):
+        module = load_module()
+        payload = {
+            'usage': {
+                'prompt_tokens': 100,
+                'completion_tokens': 20,
+                'total_tokens': 120,
+            }
+        }
+
+        usage = module.extract_token_usage(payload)
+
+        self.assertEqual(usage, {'input_tokens': 100, 'output_tokens': 20, 'total_tokens': 120})
+
     def test_resolve_api_key_falls_back_to_deepseek_key(self):
         module = load_module()
         old_llm = os.environ.get('LLM_API_KEY')
