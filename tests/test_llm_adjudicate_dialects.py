@@ -140,6 +140,9 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
         self.assertNotIn('SPECIAL RULES', prompt)
         self.assertIn('rule_baseline 只是机器规则建议', prompt)
         self.assertIn('relation_type', prompt)
+        self.assertIn('广府方言', prompt)
+        self.assertIn('不要写作“粤·广府话”', prompt)
+        self.assertIn('口音可以保留在小类中', prompt)
         self.assertIn(json.dumps('龙背村', ensure_ascii=False), prompt)
         self.assertIn(json.dumps('粤方言四邑话', ensure_ascii=False), prompt)
 
