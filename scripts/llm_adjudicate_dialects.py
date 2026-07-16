@@ -86,21 +86,35 @@ def split_components(value):
     return [part.strip() for part in normalize_text(value).split('、') if part.strip()]
 
 
+def validate_dialect_value_component(component):
+    errors = []
+    family = component.split('·', 1)[0].strip()
+    if family not in KNOWN_FAMILIES:
+        errors.append(f'missing_known_family:{component}')
+    if component.count('·') > 1:
+        errors.append(f'too_many_separators:{component}')
+    if '·' in component:
+        subgroup = component.split('·', 1)[1].strip()
+        if not subgroup:
+            errors.append(f'empty_subgroup:{component}')
+    return errors
+
+
 def validate_final_value(value):
     errors = []
     components = split_components(value)
     if not components:
         return ['empty_final_value']
     for component in components:
-        family = component.split('·', 1)[0].strip()
-        if family not in KNOWN_FAMILIES:
-            errors.append(f'missing_known_family:{component}')
-        if component.count('·') > 1:
-            errors.append(f'too_many_separators:{component}')
-        if '·' in component:
-            subgroup = component.split('·', 1)[1].strip()
-            if not subgroup:
-                errors.append(f'empty_subgroup:{component}')
+        if '->' in component:
+            sides = [part.strip() for part in component.split('->')]
+            if len(sides) != 2 or not all(sides):
+                errors.append(f'invalid_transition:{component}')
+                continue
+            for side in sides:
+                errors.extend(validate_dialect_value_component(side))
+        else:
+            errors.extend(validate_dialect_value_component(component))
     return errors
 
 

@@ -35,6 +35,17 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
 
         self.assertIn('missing_known_family:粤-四邑话', errors)
 
+    def test_validate_final_value_allows_historical_transition_arrow(self):
+        module = load_module()
+
+        self.assertEqual(module.validate_final_value('客家 -> 粤'), [])
+        self.assertEqual(module.validate_final_value('客家·涯话 -> 粤·阳春白话'), [])
+        self.assertEqual(module.validate_final_value('客家 -> 粤、少数民族·连山壮话'), [])
+
+        errors = module.validate_final_value('涯话 -> 粤')
+
+        self.assertIn('missing_known_family:涯话', errors)
+
     def test_parse_llm_json_strips_markdown_fence(self):
         module = load_module()
         raw = '```json\n{"final_value":"粤·四邑话","confidence":"high","needs_human_review":false}\n```'
