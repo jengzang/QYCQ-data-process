@@ -23,7 +23,7 @@ DEFAULT_PROVIDER = 'deepseek'
 DEFAULT_MODEL = 'deepseek-chat'
 DEFAULT_BASE_URL = 'https://api.deepseek.com/v1/chat/completions'
 DEFAULT_WIRE_API = 'chat_completions'
-PROMPT_VERSION = 'dialect_llm_v1'
+PROMPT_VERSION = 'dialect_llm_v2'
 KNOWN_FAMILIES = {'粤', '客家', '闽', '土话', '官话', '湘语', '少数民族', '其他'}
 OCR_SUSPECT_TOKENS = [
     '方盲', '方育', '方首', '方官', '方宙', '専方言', '專方言', '岑方言',
@@ -49,8 +49,12 @@ FEW_SHOT_EXAMPLES = [
     ('粤方言四包话', '粤·四邑话', '四包话按规则归一为四邑话'),
     ('闽南方言潮州话', '闽·潮汕话', '潮州话归一到潮汕话'),
     ('通用雷州话', '闽·雷州话', '通用只是使用说明，雷州话属闽'),
-    ('客家方言阳春倔话', '客家·阳春涯话', '倔话按既有规则归一为涯话'),
-    ('客家方言、粤方言', '客家、粤', '多个真实大类并列时保留多成分'),
+    ('先辈使用客家方言，现村民使用粤方言', '客家 -> 粤', '先辈/现村民表示历时转变，不是共时并列'),
+    ('原使用客家方言阳春涯话，现使用粤方言阳春白话', '客家·阳春涯话 -> 粤·阳春白话', '原使用到现使用用箭头表达'),
+    ('通用粤方言，承传客家方言', '客家 -> 粤', '承传为历史线索，通用为当前使用'),
+    ('刘姓使用粤方言台山话；苏姓使用瑶语', '粤·台山话、少数民族·瑶语', '不同姓氏/群体同时使用不同方言，按共时多方言处理'),
+    ('壮族使用壮语北部方言连山壮话，汉族使用粤方言连山话', '少数民族·连山壮话、粤·连山话', '不同民族同时使用不同方言，按共时多方言处理'),
+    ('客家方言、粤方言', '客家、粤', '没有时间先后词时，多个真实大类并列保留多成分'),
     ('使用壮语北部方言连山壮话', '少数民族·连山壮话', '壮语/连山壮话归少数民族'),
     ('越南语（因归侨较多）', '其他·越南语', '无法归入既有大类时使用其他，并尽量保留小类'),
     ('方言', '其他', '仅泛称方言且无足够证据时使用其他并标记人工复核'),
@@ -213,7 +217,7 @@ def compact_rules_text(max_chars=12000):
     return compact[:max_chars]
 
 
-def build_user_prompt(record, special_rules):
+def build_user_prompt(record, special_rules=''):
     payload = {
         'xlsx_row_number': record.get('xlsx_row_number'),
         'geo': {
@@ -248,22 +252,30 @@ def build_user_prompt(record, special_rules):
         for raw, final_value, reason in FEW_SHOT_EXAMPLES
     )
     return (
-        '你是广东自然村方言数据清洗助手。请根据原始方言文本、村庄上下文、民系/迁徙线索、'
-        '已有规则清洗结果和特殊规则，判定该行最终应归一化的方言值。\n\n'
-        '硬性要求：\n'
+        '你是广东自然村方言语义裁判助手。请根据原始方言文本和少量上下文，判定该行最终应归一化的方言值。\n\n'
+        '决策协议：\n'
+        '1. dialect_raw 是最高优先级证据；rule_baseline 只是机器规则建议，可能是错的，可以接受、细化或推翻。\n'
+        '2. “使用/通用/现使用/现村民使用”表示当前使用方言。\n'
+        '3. “先辈使用/原使用/过去使用/承传”表示历史或来源方言；如果同一句出现当前使用方言，final_value 用“历史方言 -> 当前方言”。\n'
+        '4. 不同姓氏、不同民族、不同村民群体同时使用不同方言，视为共时多方言，用“、”分隔，不用箭头。\n'
+        '5. 民系、迁徙、村史、建筑、姓氏只能辅助解释，不得覆盖清晰的 dialect_raw。\n\n'
+        '格式要求：\n'
         '1. 必须有方言大类；大类只能是：粤、客家、闽、土话、官话、湘语、少数民族、其他。\n'
         '   如果无法可靠归入前七类，允许使用“其他”。\n'
         '2. 方言小类要尽量给出；如果证据实在不足，小类可以留空。\n'
-        '3. 最终值格式只能是“大类”或“大类·小类”；多个成分用“、”连接。\n'
-        '4. 原始方言字段是最高优先级证据；村史、民系、建筑、迁徙线索只能辅助，不得随意推翻清晰原文。\n'
-        '5. OCR/异形字按特殊规则处理；无法确认时必须 needs_human_review=true。\n'
+        '3. 普通值格式是“大类”或“大类·小类”；多个共时成分用“、”连接。\n'
+        '4. 历时转变格式是“历史大类·小类 -> 当前大类·小类”；缺小类时可只写大类。\n'
+        '5. OCR/异形字可结合上下文修正；无法确认时 needs_human_review=true。\n'
         '6. 只输出 JSON，不要输出解释性段落。\n\n'
         f'判定示例：\n{example_text}\n\n'
-        f'特殊规则：\n{special_rules}\n\n'
         f'输入记录：\n{json.dumps(payload, ensure_ascii=False, indent=2)}\n\n'
         '请只输出 JSON，字段如下：\n'
         '{\n'
-        '  "final_value": "粤·四邑话",\n'
+        '  "final_value": "客家 -> 粤",\n'
+        '  "relation_type": "current_single|current_multiple|historical_to_current|unclear",\n'
+        '  "current_value": "粤",\n'
+        '  "historical_value": "客家",\n'
+        '  "baseline_action": "accept|refine|override",\n'
         '  "family": "粤",\n'
         '  "subgroups": ["四邑话"],\n'
         '  "confidence": "high|medium|low",\n'
@@ -277,8 +289,8 @@ def build_user_prompt(record, special_rules):
 
 def build_system_prompt():
     return (
-        '你只做结构化方言归一化。严格遵守用户给定类别、格式和 JSON schema。'
-        '不要编造村庄事实；证据不足时降低置信度并标记人工复核。'
+        '你只做结构化方言语义归一化。严格区分当前使用、共时多方言和历时转变。'
+        '严格遵守用户给定类别、格式和 JSON schema；不要编造村庄事实。'
     )
 
 
@@ -505,6 +517,10 @@ def dry_run_response(record):
 def normalize_result(result):
     return {
         'final_value': normalize_text(result.get('final_value')),
+        'relation_type': normalize_text(result.get('relation_type')),
+        'current_value': normalize_text(result.get('current_value')),
+        'historical_value': normalize_text(result.get('historical_value')),
+        'baseline_action': normalize_text(result.get('baseline_action')),
         'family': normalize_text(result.get('family')),
         'subgroups': result.get('subgroups') if isinstance(result.get('subgroups'), list) else [],
         'confidence': normalize_text(result.get('confidence')) or 'medium',
@@ -662,7 +678,6 @@ def main():
     if not dry_run and not api_key:
         raise RuntimeError(f'Missing API key env var: {args.api_key_env}')
 
-    special_rules = compact_rules_text()
     xlsx_context = load_xlsx_context_by_row()
 
     conn = sqlite3.connect(STAGING_DB)
@@ -684,7 +699,7 @@ def main():
 
     for base_record in records:
         record = merge_context(base_record, xlsx_context)
-        prompt = build_user_prompt(record, special_rules)
+        prompt = build_user_prompt(record)
         messages = [
             {'role': 'system', 'content': build_system_prompt()},
             {'role': 'user', 'content': prompt},

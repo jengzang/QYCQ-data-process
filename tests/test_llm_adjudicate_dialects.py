@@ -131,23 +131,34 @@ class LlmAdjudicateDialectsTests(unittest.TestCase):
             '村俗或传统民居或村特色产品': '传统民居为广府民居',
         }
 
-        prompt = module.build_user_prompt(record, 'SPECIAL RULES')
+        prompt = module.build_user_prompt(record)
 
         self.assertIn('必须有方言大类', prompt)
         self.assertIn('大类·小类', prompt)
         self.assertIn('其他', prompt)
-        self.assertIn('SPECIAL RULES', prompt)
+        self.assertNotIn('SPECIAL RULES', prompt)
+        self.assertIn('rule_baseline 只是机器规则建议', prompt)
+        self.assertIn('relation_type', prompt)
         self.assertIn(json.dumps('龙背村', ensure_ascii=False), prompt)
         self.assertIn(json.dumps('粤方言四邑话', ensure_ascii=False), prompt)
 
     def test_build_prompt_contains_few_shot_examples(self):
         module = load_module()
 
-        prompt = module.build_user_prompt({'xlsx_row_number': 1}, 'SPECIAL RULES')
+        prompt = module.build_user_prompt({'xlsx_row_number': 1})
 
         self.assertIn('判定示例', prompt)
-        self.assertIn('粤方言四包话 -> 粤·四邑话', prompt)
+        self.assertIn('先辈使用客家方言，现村民使用粤方言 -> 客家 -> 粤', prompt)
+        self.assertIn('刘姓使用粤方言台山话；苏姓使用瑶语 -> 粤·台山话、少数民族·瑶语', prompt)
         self.assertIn('越南语（因归侨较多） -> 其他·越南语', prompt)
+
+    def test_build_prompt_does_not_embed_long_rules_document(self):
+        module = load_module()
+
+        prompt = module.build_user_prompt({'xlsx_row_number': 1}, 'SHOULD_NOT_APPEAR')
+
+        self.assertNotIn('SHOULD_NOT_APPEAR', prompt)
+        self.assertNotIn('## 4. 方言清洗规则', prompt)
 
     def test_fetch_records_works_before_final_write_value_column_exists(self):
         module = load_module()

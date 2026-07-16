@@ -323,15 +323,19 @@ LLM_WIRE_API=responses
 python3 scripts/llm_adjudicate_dialects.py --dry-run --limit 20
 ```
 
-3. 确认 `.env` 配好后正式调用 DeepSeek：
+3. 确认 `.env` 配好后正式调用。建议先用高优先级候选、小批量、可断点模式：
 ```bash
-python3 scripts/llm_adjudicate_dialects.py --apply --limit 100
+python3 scripts/llm_adjudicate_dialects.py --apply --priority-candidates --limit 50 --timeout 20 --progress-every 5 --skip-existing
 ```
 
 说明：
 - 该步骤位于规则清洗之后、最终写回值构建之前
-- 输入包括原始方言、规则清洗结果、村名、地理层级、村历史沿革、民系/迁徙线索、村名来源、建村时间、世居姓氏、居民民族和特殊方言规则
+- 当前 prompt version 为 `dialect_llm_v2`
+- 输入包括原始方言、规则清洗结果、村名、地理层级、村历史沿革、民系/迁徙线索、村名来源、建村时间、世居姓氏和居民民族
+- v2 不再把完整规则文档喂给模型；`rule_baseline` 只是机器规则建议，模型需要根据原始 `dialect_raw` 做语义裁判
 - 默认只选择 `low`、`medium`、`混合`、OCR 可疑记录进入 LLM 判定；如需全部非空方言行，可加 `--all-rows`
+- 可加 `--priority-candidates` 只跑高价值候选，跳过明确可由规则处理的记录
+- 可加 `--skip-existing` 跳过已经有真实 LLM 结果的行，适合分批续跑
 - 默认不调用 API；未传 `--apply` 时等同 dry-run
 - 默认 provider/model 为 DeepSeek：`deepseek-chat`
 - 默认 API 地址为：`https://api.deepseek.com/v1/chat/completions`
@@ -344,8 +348,11 @@ python3 scripts/llm_adjudicate_dialects.py --apply --limit 100
 - API key 默认读取：`LLM_API_KEY`；也兼容旧的 `DEEPSEEK_API_KEY`
 - 输出写入 `villages_fromJNU.db.jnu_dialect_llm_adjudication`
 - 同时导出 review CSV：`artifacts/dialect_llm_review/llm_adjudication_review.csv`
+- 每次运行会追加永久留痕 CSV：`artifacts/dialect_llm_review/runs/llm_adjudication_run_*.csv`
 - 该步骤不直接覆盖 `villages.db.方言分布`
-- 方言最终值要求必须有大类；小类尽量给出，证据不足可留空；格式为 `大类` 或 `大类·小类`
+- 方言最终值要求必须有大类；小类尽量给出，证据不足可留空
+- 普通格式为 `大类` 或 `大类·小类`；多个共时方言用 `、` 分隔，例如 `粤·台山话、少数民族·瑶语`
+- 历时转变使用 `历史方言 -> 当前方言`，例如 `客家 -> 粤`、`客家·涯话 -> 粤·阳春白话`
 
 ### 8. 构建最终写回值 / review 产物
 ```bash
