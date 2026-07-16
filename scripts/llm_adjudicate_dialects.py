@@ -49,9 +49,9 @@ FEW_SHOT_EXAMPLES = [
     ('粤方言四包话', '粤·四邑话', '四包话按规则归一为四邑话'),
     ('闽南方言潮州话', '闽·潮汕话', '潮州话归一到潮汕话'),
     ('通用雷州话', '闽·雷州话', '通用只是使用说明，雷州话属闽'),
-    ('先辈使用客家方言，现村民使用粤方言', '客家 -> 粤', '先辈/现村民表示历时转变，不是共时并列'),
-    ('原使用客家方言阳春涯话，现使用粤方言阳春白话', '客家·阳春涯话 -> 粤·阳春白话', '原使用到现使用用箭头表达'),
-    ('通用粤方言，承传客家方言', '客家 -> 粤', '承传为历史线索，通用为当前使用'),
+    ('先辈使用客家方言，现村民使用粤方言', '客家 → 粤', '先辈/现村民表示历时转变，不是共时并列'),
+    ('原使用客家方言阳春涯话，现使用粤方言阳春白话', '客家·涯话 → 粤·阳春白话', '原使用到现使用用箭头表达'),
+    ('通用粤方言，承传客家方言', '客家 → 粤', '承传为历史线索，通用为当前使用'),
     ('刘姓使用粤方言台山话；苏姓使用瑶语', '粤·台山话、少数民族·瑶语', '不同姓氏/群体同时使用不同方言，按共时多方言处理'),
     ('壮族使用壮语北部方言连山壮话，汉族使用粤方言连山话', '少数民族·连山壮话、粤·连山话', '不同民族同时使用不同方言，按共时多方言处理'),
     ('客家方言、粤方言', '客家、粤', '没有时间先后词时，多个真实大类并列保留多成分'),
@@ -90,6 +90,14 @@ def split_components(value):
     return [part.strip() for part in normalize_text(value).split('、') if part.strip()]
 
 
+def split_transition(component):
+    if '→' in component:
+        return [part.strip() for part in component.split('→')]
+    if '->' in component:
+        return [part.strip() for part in component.split('->')]
+    return None
+
+
 def validate_dialect_value_component(component):
     errors = []
     family = component.split('·', 1)[0].strip()
@@ -110,8 +118,8 @@ def validate_final_value(value):
     if not components:
         return ['empty_final_value']
     for component in components:
-        if '->' in component:
-            sides = [part.strip() for part in component.split('->')]
+        sides = split_transition(component)
+        if sides is not None:
             if len(sides) != 2 or not all(sides):
                 errors.append(f'invalid_transition:{component}')
                 continue
@@ -256,7 +264,7 @@ def build_user_prompt(record, special_rules=''):
         '决策协议：\n'
         '1. dialect_raw 是最高优先级证据；rule_baseline 只是机器规则建议，可能是错的，可以接受、细化或推翻。\n'
         '2. “使用/通用/现使用/现村民使用”表示当前使用方言。\n'
-        '3. “先辈使用/原使用/过去使用/承传”表示历史或来源方言；如果同一句出现当前使用方言，final_value 用“历史方言 -> 当前方言”。\n'
+        '3. “先辈使用/原使用/过去使用/承传”表示历史或来源方言；如果同一句出现当前使用方言，final_value 用“历史方言 → 当前方言”。\n'
         '4. 不同姓氏、不同民族、不同村民群体同时使用不同方言，视为共时多方言，用“、”分隔，不用箭头。\n'
         '5. 民系、迁徙、村史、建筑、姓氏只能辅助解释，不得覆盖清晰的 dialect_raw。\n\n'
         '格式要求：\n'
@@ -264,14 +272,14 @@ def build_user_prompt(record, special_rules=''):
         '   如果无法可靠归入前七类，允许使用“其他”。\n'
         '2. 方言小类要尽量给出；如果证据实在不足，小类可以留空。\n'
         '3. 普通值格式是“大类”或“大类·小类”；多个共时成分用“、”连接。\n'
-        '4. 历时转变格式是“历史大类·小类 -> 当前大类·小类”；缺小类时可只写大类。\n'
+        '4. 历时转变格式是“历史大类·小类 → 当前大类·小类”；缺小类时可只写大类。\n'
         '5. OCR/异形字可结合上下文修正；无法确认时 needs_human_review=true。\n'
         '6. 只输出 JSON，不要输出解释性段落。\n\n'
         f'判定示例：\n{example_text}\n\n'
         f'输入记录：\n{json.dumps(payload, ensure_ascii=False, indent=2)}\n\n'
         '请只输出 JSON，字段如下：\n'
         '{\n'
-        '  "final_value": "客家 -> 粤",\n'
+        '  "final_value": "客家 → 粤",\n'
         '  "relation_type": "current_single|current_multiple|historical_to_current|unclear",\n'
         '  "current_value": "粤",\n'
         '  "historical_value": "客家",\n'
